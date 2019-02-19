@@ -1,0 +1,22 @@
+<div id="vue-container">
+    <x-conecta
+      p-url="{{ Sitecore.url }}">
+
+        <template slot="conectaTop">
+          <div>
+              <span> {{ Sitecore.Title }} </span>
+          </div>
+        </template>
+
+        <template slot="subTitle">
+            {{ Sitecore.SubTitle }}
+        </template>
+
+        <template slot="imgBanner">
+          <img src="{{ Sitecore.imgBanner }}" />
+        </template>
+
+    </x-conecta>
+</div>
+
+<script src="{{ path '/conecta.bundle.js' }}"></script>
