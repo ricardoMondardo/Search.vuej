@@ -1,0 +1,21 @@
+.conectaCard {
+
+  display: inline-block;
+  width: 96%;
+  margin: 4px 2%;
+  background: white;
+
+  &__img {
+    float: left;
+    margin: 10px 10px;
+  }
+
+  &__field-container {
+    padding: 20px 120px;
+  }
+
+  &__field-label {
+    font-weight: bolder;
+  }
+
+}

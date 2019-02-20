@@ -3,5 +3,8 @@
 @import '_normalize';
 @import '_variables';
 
-@import 'conecta';
-@import '_conectaDetail';
+@import '01_conecta/_conecta';
+@import '01_conecta/_conectaCard';
+@import '01_conecta/_conectalist';
+
+@import '02_conectaDetail/_conectaDetail';

@@ -1,17 +1,23 @@
 <template>
-  <div class="c-conecta__card">
-    <img  v-bind:src="pImageSrc" class="c-conecta__img-card" />
-    <div class="c-conecta__img-card-fields">
-      <div class="c-conecta__img-card-field">
-        <span class="c-conecta__img-card-field-label"> Title: </span>
-        <a v-bind:href="'ConectaDetail/id=' + pId" class="c-conecta__list-link">{{ pTitle }}</a>
+
+  <div class="conectaCard">
+    <div class="conectaCard__img">
+      <a v-bind:href="'ConectaDetail/id=' + pId">
+        <img  v-bind:src="pImageSrc" width="100px" height="100px"/>
+      </a>
+    </div>
+    <div class="conectaCard__field-container">
+      <div class="conectaCard__field">
+        <span class="conectaCard__field-label"> <slot name="LabelTitle" /> </span>
+        {{ pTitle }}
       </div>
-      <div class="c-conecta__img-card-field">
-        <span class="c-conecta__img-card-field-label"> Category: </span>
-        <a> Lorem isopum </a>
+      <div class="conectaCard__field">
+        <span class="conectaCard__field-label"> <slot name="LabelCategory" /> </span>
+        Lorem isopum iso
       </div>
     </div>
   </div>
+
 </template>
 
 <script>

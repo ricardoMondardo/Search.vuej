@@ -30,7 +30,14 @@
         Loading...
       </div>
       <div v-else>
-        <x-conectaList  v-bind:pCollection="drugs"/>
+        <x-conectaList v-bind:pCollection="drugs">
+          <template v-slot:CardLaLabelTitle>
+            <slot name="cardLabelTitle" />
+          </template>
+          <template v-slot:CardLabelCategory>
+            <slot name="cardLabelCategory" />
+          </template>
+        </x-conectaList>
       </div>
     </div>
 
@@ -68,17 +75,11 @@
         Next Page
       </button>
 
-      <!-- <div v-if="page > 0"> Page: {{ page }} </div>
-      <div v-if="page > 0"> Total Page: {{ totalPages }} </div> -->
     </div>
-
   </div>
 </template>
 
 <script>
-
-
-
   export default {
     name: 'x-conecta',
     props: {

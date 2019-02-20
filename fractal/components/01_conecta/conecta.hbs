@@ -1,6 +1,5 @@
 <div id="vue-container">
-    <x-conecta
-      p-url="{{ Sitecore.url }}">
+    <x-conecta p-url="{{ Sitecore.url }}">
 
         <template slot="conectaTop">
           <div>
@@ -14,6 +13,14 @@
 
         <template slot="imgBanner">
           <img src="{{ Sitecore.imgBanner }}" />
+        </template>
+
+        <template slot="cardLabelTitle">
+          {{ Sitecore.CardLabelTitle }}
+        </template>
+
+        <template slot="cardLabelCategory">
+          {{ Sitecore.CardLabelCategory }}
         </template>
 
     </x-conecta>
