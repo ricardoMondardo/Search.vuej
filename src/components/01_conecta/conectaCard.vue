@@ -9,11 +9,13 @@
       </a>
     </div>
     <div class="conectaCard__field-container">
-      <x-field :pValue="pTitle">
+      <x-field :pValue="pTitle"
+              pTypeInfo="Item Title">
         <template v-slot:Label> <slot name="LabelTitle" /> </template>
       </x-field>
 
-      <x-field :pValue="pCategory">
+      <x-field :pValue="pCategory"
+              pTypeInfo="Item Category">
         <template v-slot:Label> <slot name="LabelCategory" /> </template>
       </x-field>
     </div>

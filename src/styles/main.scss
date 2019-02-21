@@ -3,8 +3,10 @@
 @import '_normalize';
 @import '_variables';
 
-@import '00_common/field.scss';
-@import '00_common/pagination.scss';
+@import '00_common/field';
+@import '00_common/pagination';
+@import '00_common/button';
+@import '00_common/spiner';
 
 @import '01_conecta/_conecta';
 @import '01_conecta/_conectaCard';

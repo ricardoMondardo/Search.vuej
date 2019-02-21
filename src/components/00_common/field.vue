@@ -1,7 +1,7 @@
 <template>
   <div class="field">
     <span class="field__label"> <slot name="Label" /> </span>
-    {{ pValue }}
+    {{ pValue || "[" + pTypeInfo + "]" }}
   </div>
 </template>
 
@@ -12,6 +12,10 @@ export default {
   props: {
     pValue: {
       type: String
+    },
+    pTypeInfo: {
+      type: String,
+      default: "No type defined"
     }
   }
 }

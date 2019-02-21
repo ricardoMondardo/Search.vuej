@@ -1,52 +1,28 @@
 <div id="vue-containerDetail">
     <x-conectadetail p-url="http://conecta.local/api/drugsApi/drugs/{904B77A8-9A83-4AC6-ABE9-E09254486395}">
 
+        <template slot="TopText">
+            {{ Sitecore.TopText }}
+        </template>
+
         <template slot="LabelTitle">
-            <span>Find a Drug</span>
+             {{ Sitecore.LabelTitle }}
         </template>
 
-        <template slot="LabelTargetName">
-            Label Target Name
-        </template>
-
-        <template slot="LabelTargetClass">
-            Label Target Class
-        </template>
-
-        <template slot="LabelAccession">
-            Label Accession
-        </template>
-
-        <template slot="LabelGene">
-            Label Gene
-        </template>
-
-        <template slot="LabelActValue">
-            Label Act Value
-        </template>
-
-        <template slot="LabelActType">
-            Label Act Type
-        </template>
-
-        <template slot="LabelActSourceUrl">
-            Label Act Source URL
-        </template>
-
-        <template slot="LabelMoaSource">
-            Label Moa Source
+        <template slot="LabelCategory">
+             {{ Sitecore.LabelCategory }}
         </template>
 
         <template slot="LabelOrganism">
-            Label Organism
+             {{ Sitecore.LabelOrganism }}
         </template>
 
-        <template slot="ImageMedicin">
-            <img src="/img/MedicinDrug.jpg" alt="Medicin Drug image" />            
+        <template slot="LabelAccession">
+             {{ Sitecore.LabelAccession }}
         </template>
 
-        <template slot="imgBannerDetail">
-          <img src="/img/imgBanner.jpeg" />
+        <template slot="LabelGene">
+             {{ Sitecore.LabelGene }}
         </template>
 
     </x-conectadetail>

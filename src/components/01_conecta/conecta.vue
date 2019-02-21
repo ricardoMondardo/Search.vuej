@@ -29,8 +29,8 @@
     </div>
 
     <div class="c-conecta__botton-container">
-      <div v-if="loading">
-        Loading...
+      <div v-if="loading" class="c-conecta__spiner">
+        <x-spiner />
       </div>
       <div v-else>
         <x-conectaList :pCollection="drugs">

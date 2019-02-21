@@ -1,0 +1,15 @@
+{
+  "context": {
+      "Sitecore": {
+          "TopText": "General information!",
+          "LabelTitle": "Title:",
+          "LabelCategory": "Category:",
+          "LabelOrganism": "Organism:",
+          "LabelAccession": "Accession:",
+          "LabelGene": "Gene:"
+
+      }
+  },
+  "notes": "These are some **notes** about the component",
+  "status": "wip"
+}
