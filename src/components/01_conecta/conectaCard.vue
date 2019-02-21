@@ -2,19 +2,20 @@
 
   <div class="conectaCard">
     <div class="conectaCard__img">
-      <a v-bind:href="'ConectaDetail/id=' + pId">
-        <img  v-bind:src="pImageSrc" width="100px" height="100px"/>
+      <a :href="'ConectaDetail/id=' + pId">
+        <img  :src="pImageSrc"
+              width="100px"
+              height="100px"/>
       </a>
     </div>
     <div class="conectaCard__field-container">
-      <div class="conectaCard__field">
-        <span class="conectaCard__field-label"> <slot name="LabelTitle" /> </span>
-        {{ pTitle }}
-      </div>
-      <div class="conectaCard__field">
-        <span class="conectaCard__field-label"> <slot name="LabelCategory" /> </span>
-        Lorem isopum iso
-      </div>
+      <x-field :pValue="pTitle">
+        <template v-slot:Label> <slot name="LabelTitle" /> </template>
+      </x-field>
+
+      <x-field :pValue="pCategory">
+        <template v-slot:Label> <slot name="LabelCategory" /> </template>
+      </x-field>
     </div>
   </div>
 
@@ -29,6 +30,10 @@
         default: ""
       },
       pTitle: {
+        type: String,
+        default: ""
+      },
+      pCategory: {
         type: String,
         default: ""
       },

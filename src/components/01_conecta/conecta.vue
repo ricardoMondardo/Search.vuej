@@ -7,7 +7,9 @@
       </div>
 
       <div class="c-conecta__title">
-        <slot name="conectaTop" />
+        <div class="slot-wrapper">
+          <slot name="conectaTop" />
+        </div>
       </div>
 
       <div class="c-conecta__subtitle">
@@ -16,7 +18,8 @@
 
       <div class="c-conecta__input-container">
         <input v-model="message"
-              placeholder="Ex. Lorem">
+              placeholder="Ex. Lorem"
+              @keyup.enter="search">
         <button v-on:click="search">Search</button>
       </div>
     </div>
@@ -30,9 +33,9 @@
         Loading...
       </div>
       <div v-else>
-        <x-conectaList v-bind:pCollection="drugs">
+        <x-conectaList :pCollection="drugs">
           <template v-slot:CardLaLabelTitle>
-            <slot name="cardLabelTitle" />
+              <slot name="cardLabelTitle" />
           </template>
           <template v-slot:CardLabelCategory>
             <slot name="cardLabelCategory" />
@@ -42,40 +45,14 @@
     </div>
 
     <div class="c-conecta__pagination">
-      <button v-on:click="previous"
-              v-bind:disabled="(page - 1) <= 0">
-              Previous Page
-      </button>
-
-      <span v-if="page > 0">
-        <button v-on:click="goToPage(pagesFastAccess[0])"
-                v-bind:disabled="page == pagesFastAccess[0]"
-                class="c-conecta__fast-button-page">
-          {{ pagesFastAccess[0] || "..." }}
-        </button>
-
-        <button v-on:click="goToPage(pagesFastAccess[1])"
-                v-bind:disabled="page == pagesFastAccess[1]"
-                class="c-conecta__fast-button-page">
-          {{ pagesFastAccess[1] || "..." }}
-        </button>
-
-        <button v-on:click="goToPage(pagesFastAccess[2])"
-                v-bind:disabled="page == pagesFastAccess[2]"
-                class="c-conecta__fast-button-page">
-          {{ pagesFastAccess[2] || "..." }}
-        </button>
-      </span>
-      <span v-else>
-        <button> ... </button>
-      </span>
-
-      <button v-on:click="next"
-              v-bind:disabled="(page + 1) > totalPages">
-        Next Page
-      </button>
-
+      <x-paggination v-on:next="next"
+                     v-on:previous="previous"
+                     v-on:goToPage="goToPage"
+                     :pPagesFastAccess="pagesFastAccess"
+                     :pPage="page"
+                     :pTotalPages="totalPages" />
     </div>
+
   </div>
 </template>
 
@@ -93,7 +70,7 @@
             drugs: [],
             dataPages: [],
             pagesFastAccess: [1,2,3],
-            totalItems: 0,
+            totalItems: -1,
             totalPages: 0,
             totalItemsPage: 3,
             page: 0,
@@ -103,7 +80,18 @@
             message: ""
           }
       },
+    // computed: {
+    //   shouldDisable: function() {
+    //     return page == pagesFastAccess[0] || pagesFastAccess[0] == null;
+    //   }
+    // },
+    // mounted() {
+    //     console.log(this.$el.getElementsByClassName("slot-wrapper")[0].innerHTML);
+    // },
     methods: {
+      test: function() {
+        console.log('test')
+      },
       goToPage: function(page) {
         if (page > this.totalPages || page < 0) return false
 
@@ -208,6 +196,7 @@
 
                 rObj["Id"] = obj.ID
                 rObj["Title"] = obj.DRUG_NAME
+                rObj["Category"] = obj.TARGET_CLASS
                 rObj["Image"] = obj.IMAGE_URL
                 rObj["IsExperience"] = obj.IS_EXPERIENCE
 
@@ -230,9 +219,6 @@
               self.ErrorReq = true;
               return false
             });
-
-
-
       }
     }
   }

@@ -1,11 +1,14 @@
 import Conecta from './Conecta'
-import Search from './Search'
 import ConectaList from './conectaList'
 import ConectaCard from './conectaCard'
+import ConectaPagination from './conectaPagination'
+
+import Field from '../00_common/field'
 
 export default [
   Conecta,
-  Search,
   ConectaList,
-  ConectaCard
+  ConectaCard,
+  ConectaPagination,
+  Field
 ]

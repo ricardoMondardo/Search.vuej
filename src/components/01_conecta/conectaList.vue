@@ -3,9 +3,10 @@
     <ul v-if="pCollection.length > 0">
       <li v-for="item in pCollection">
           <x-conectaCard
-            v-bind:pId="item.Id"
-            v-bind:pTitle="item.Title"
-            v-bind:pImageSrc="item.Image">
+            :pId="item.Id"
+            :pTitle="item.Title"
+            :pImageSrc="item.Image"
+            :pCategory="item.Category">
 
             <template v-slot:LabelTitle>
               <slot name="CardLaLabelTitle" />
@@ -18,9 +19,6 @@
           </x-conectaCard>
       </li>
     </ul>
-    <div class="conectaList__msg" v-else>
-      ...
-    </div>
   </div>
 </template>
 
