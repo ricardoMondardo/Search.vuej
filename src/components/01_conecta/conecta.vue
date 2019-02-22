@@ -24,6 +24,8 @@
       </div>
     </div>
 
+
+
     <div v-if="!errorReq">
       {{ errorMsg }}
     </div>
@@ -50,13 +52,17 @@
                      v-on:goToPage="goToPage"
                      :pPagesFastAccess="pagesFastAccess"
                      :pPage="page"
-                     :pTotalPages="totalPages" />
+                     :pTotalPages="totalPages"
+                     :pPageOf="PageOf" />
     </div>
 
   </div>
 </template>
 
 <script>
+
+  var util = require('../99_util/Util');
+
   export default {
     name: 'x-conecta',
     props: {
@@ -69,7 +75,7 @@
           return {
             drugs: [],
             dataPages: [],
-            pagesFastAccess: [1,2,3],
+            pagesFastAccess: [],
             totalItems: -1,
             totalPages: 0,
             totalItemsPage: 3,
@@ -80,18 +86,20 @@
             message: ""
           }
       },
-    // computed: {
-    //   shouldDisable: function() {
-    //     return page == pagesFastAccess[0] || pagesFastAccess[0] == null;
-    //   }
-    // },
-    // mounted() {
-    //     console.log(this.$el.getElementsByClassName("slot-wrapper")[0].innerHTML);
-    // },
+    computed: {
+      PageOf: function() {
+        return this.page + ' of ' + this.totalPages;
+      }
+    },
+    mounted() {
+
+        this.page = util.getPageFromState()
+        //this.message = util.getQueryFromState();
+        this.pagesFastAccess = util.getFastButtonsFromState();
+
+        this.getdata(this.buildUrl());
+    },
     methods: {
-      test: function() {
-        console.log('test')
-      },
       goToPage: function(page) {
         if (page > this.totalPages || page < 0) return false
 
@@ -107,45 +115,28 @@
         var nextPage = this.page + 1;
         if (nextPage > this.totalPages) return false
 
-        this.page = nextPage;
-        this.updateFastPagging();
-
-        if (!this.tryGetFromLocal()) {
-          this.getdata(this.buildUrl())
-        };
-
-        return false;
+        return this.goToPage(nextPage);
       },
       previous: function() {
         var previous = this.page - 1;
         if (previous < 1) return false
 
-        this.page = previous;
-        this.updateFastPagging();
-
-        if (!this.tryGetFromLocal()) {
-          this.getdata(this.buildUrl())
-        };
-
-        return false;
+        return this.goToPage(previous);
       },
       updateFastPagging: function() {
 
-        if (this.page > this.pagesFastAccess[2] || this.page < this.pagesFastAccess[0])
-        {
-          var count = 0;
-          this.pagesFastAccess = [];
+        const isPageInFast = (this.page >= this.pagesFastAccess[0] && this.page <= this.pagesFastAccess[2]);
+        if (isPageInFast) return
 
-          for (var i = this.page; i <= this.totalPages; i++ ) {
+        this.pagesFastAccess = [];
+        this.pagesFastAccess.push(this.page);
 
-            if (count > 3) return;
-
-            this.pagesFastAccess.push(this.page + count);
-            count++
-          }
-
+        if (this.page + 1 <= this.totalPages) {
+          this.pagesFastAccess.push(this.page + 1)
         }
-
+        if (this.page + 2 <= this.totalPages) {
+          this.pagesFastAccess.push(this.page + 2)
+        }
       },
       tryGetFromLocal: function() {
         var arrAlreadyFetched = this.dataPages.find(obj => obj.Page == this.page);
@@ -153,13 +144,15 @@
         if (arrAlreadyFetched != undefined)
         {
           this.drugs = arrAlreadyFetched.arr;
+          this.buildUrl();
+          this.updateFastPagging();
           return true;
         }
 
         return false
       },
       search: function() {
-          this.page = 1
+          this.page = 1;
           var url = this.buildUrl()
 
           this.dataPages = [];
@@ -169,8 +162,12 @@
       buildUrl: function() {
           var url = this.pUrl
 
+          if(this.page <= 0) this.page = 1;
+
           url = this.message == "" ? `${url}?page=${this.page}&count=${this.totalItemsPage}`
             : `${url}?q=${this.message}&page=${this.page}&count=${this.totalItemsPage}`
+
+          util.setStateInCookies(url, this.pagesFastAccess);
 
           return url;
       },
@@ -211,6 +208,7 @@
               self.dataPages.push(arrPage);
               self.drugs = arrObjs;
               self.loading = false;
+              self.updateFastPagging();
             })
             .catch(function(e)
             {

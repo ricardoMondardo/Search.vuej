@@ -15,6 +15,7 @@
     <button v-on:click="$emit('next')"
             :disabled="(pPage + 1) > pTotalPages "
             class="button"  > Next </button>
+    <!-- <span> {{ pPageOf }} </span> -->
   </div>
 </template>
 
@@ -33,6 +34,10 @@ export default {
     pTotalPages: {
       type: Number,
       default: 0
+    },
+    pPageOf: {
+      type: String,
+      default: "0 of 0"
     }
   }
 }

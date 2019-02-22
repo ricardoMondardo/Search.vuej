@@ -4,4 +4,11 @@
   border: 0.5px solid gray;
   border-radius: 3px;
   text-decoration: none;
+
+  &:hover {
+    background: $SecondColor;
+  }
+
 }
+
+
