@@ -38,6 +38,10 @@
         <template v-slot:Label> <slot name="LabelGene" /> </template>
       </x-field>
     </div>
+
+    <div class="c-conectaDetail__botton">
+      <slot name="conectaDetailBotton" />
+    </div>
   </div>
 </template>
 
@@ -48,13 +52,18 @@
       pUrl: {
         type: String,
         default: "/api/drugsApi/drugs"
+      },
+      pHost: {
+        type: String,
+        default: "/conecta"
       }
     },
     data: () => {
         return {
           drug: {},
           loading: true,
-          message: ""
+          message: "",
+          host: ''
         }
     },
     created() {

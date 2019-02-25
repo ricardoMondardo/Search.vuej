@@ -7,9 +7,7 @@
       </div>
 
       <div class="c-conecta__title">
-        <div class="slot-wrapper">
-          <slot name="conectaTop" />
-        </div>
+        <slot name="title" />
       </div>
 
       <div class="c-conecta__subtitle">
@@ -17,17 +15,17 @@
       </div>
 
       <div class="c-conecta__input-container">
-        <input v-model="message"
+        <input v-model="searchTerm"
               placeholder="Ex. Lorem"
               @keyup.enter="search">
         <button v-on:click="search">Search</button>
       </div>
-    </div>
 
-
-
-    <div v-if="!errorReq">
-      {{ errorMsg }}
+      <div class="c-conecta__message">
+        <span v-if="message.length > 0">
+          {{ message }}
+        </span>
+      </div>
     </div>
 
     <div class="c-conecta__botton-container">
@@ -81,8 +79,7 @@
             totalItemsPage: 3,
             page: 0,
             loading: false,
-            errorReq: false,
-            errorMsg: "",
+            searchTerm: "",
             message: ""
           }
       },
@@ -94,7 +91,7 @@
     mounted() {
 
         this.page = util.getPageFromState()
-        //this.message = util.getQueryFromState();
+        this.searchTerm = util.getQueryFromState();
         this.pagesFastAccess = util.getFastButtonsFromState();
 
         this.getdata(this.buildUrl());
@@ -164,8 +161,8 @@
 
           if(this.page <= 0) this.page = 1;
 
-          url = this.message == "" ? `${url}?page=${this.page}&count=${this.totalItemsPage}`
-            : `${url}?q=${this.message}&page=${this.page}&count=${this.totalItemsPage}`
+          url = this.searchTerm == "" ? `${url}?page=${this.page}&count=${this.totalItemsPage}`
+            : `${url}?q=${this.searchTerm}&page=${this.page}&count=${this.totalItemsPage}`
 
           util.setStateInCookies(url, this.pagesFastAccess);
 
@@ -175,8 +172,6 @@
           const self = this
 
           this.loading = true;
-          this.ErrorReq = false;
-          this.ErrorMsg = "";
 
           fetch(url)
             .then(function(response) {
@@ -195,7 +190,6 @@
                 rObj["Title"] = obj.DRUG_NAME
                 rObj["Category"] = obj.TARGET_CLASS
                 rObj["Image"] = obj.IMAGE_URL
-                rObj["IsExperience"] = obj.IS_EXPERIENCE
 
                 return rObj;
               });
@@ -205,16 +199,22 @@
                 arr: arrObjs
               };
 
+              if (myJson.IsInSitecore) {
+                self.drugs = [arrObjs[0]];
+                self.message = "You are in Sitecore, you'll get no more than one result here."
+              } else {
+                self.drugs = arrObjs;
+              }
+
               self.dataPages.push(arrPage);
-              self.drugs = arrObjs;
               self.loading = false;
               self.updateFastPagging();
             })
             .catch(function(e)
             {
               self.loading = false;
-              self.ErrorMsg = "Some thing goes wrong, sorry."
-              self.ErrorReq = true;
+              self.message = "Some thing goes wrong, sorry."
+              console.log(e)
               return false
             });
       }

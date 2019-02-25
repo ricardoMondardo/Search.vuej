@@ -1,10 +1,8 @@
 <div id="vue-container">
     <x-conecta p-url="{{ Sitecore.url }}">
 
-        <template slot="conectaTop">
-          <div>
-              <span> {{ Sitecore.Title }} </span>
-          </div>
+        <template slot="title">
+          {{ Sitecore.Title }}
         </template>
 
         <template slot="subTitle">
