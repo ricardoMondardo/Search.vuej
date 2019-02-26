@@ -46,7 +46,7 @@ const setStateInCookies = function(url, pagesFastAccess) {
 
   var state = url.indexOf('?q=') != -1 ?
               url.substr(url.indexOf('?q=')) :
-              url.substr(url.indexOf('?page='));
+              url.substr(url.indexOf('?PageNumber='));
 
 
   state = state + '&fastBtns=' +pagesFastAccess.join(',');
@@ -56,7 +56,7 @@ const setStateInCookies = function(url, pagesFastAccess) {
 const getPageFromState = function() {
 
   var state = getStateFromCookies();
-  var result = state.substring(state.indexOf('page=') + 5, state.indexOf('&count'))
+  var result = state.substring(state.indexOf('PageNumber=') + 5, state.indexOf('&PageSize'))
 
   return parseInt(result, 0);
 }
