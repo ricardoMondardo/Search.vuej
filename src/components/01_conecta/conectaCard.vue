@@ -2,7 +2,7 @@
 
   <div class="conectaCard">
     <div class="conectaCard__img">
-      <a :href="'ConectaDetail/id=' + pId">
+      <a href="#">
         <img  :src="pImageSrc"
               width="100px"
               height="100px"/>

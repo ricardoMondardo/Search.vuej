@@ -1,24 +1,24 @@
 <div id="vue-container">
-    <x-conecta p-url="{{ Sitecore.url }}">
+    <x-conecta p-url="{{ url }}">
 
         <template slot="title">
-          {{ Sitecore.Title }}
+          {{ Title }}
         </template>
 
         <template slot="subTitle">
-            {{ Sitecore.SubTitle }}
+            {{ SubTitle }}
         </template>
 
         <template slot="imgBanner">
-          <img src="{{ Sitecore.imgBanner }}" />
+          <img src="{{ imgBanner }}" />
         </template>
 
         <template slot="cardLabelTitle">
-          {{ Sitecore.CardLabelTitle }}
+          {{ CardLabelTitle }}
         </template>
 
         <template slot="cardLabelCategory">
-          {{ Sitecore.CardLabelCategory }}
+          {{ CardLabelCategory }}
         </template>
 
     </x-conecta>

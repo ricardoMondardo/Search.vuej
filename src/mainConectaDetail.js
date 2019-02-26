@@ -28,6 +28,4 @@ const rootDetail = new Vue({
   el: '#vue-containerDetail'
 })
 
-console.log(components)
-console.log(rootDetail)
 console.log("vue-container detail just built")

@@ -14,6 +14,7 @@ fractal.docs.set('path', `${__dirname}/fractal/docs`);
 fractal.components.set('path', `${__dirname}/fractal/components`);
 
 fractal.web.set('server.port', 3000);
+fractal.web.set('static.path', __dirname + '/public');
 
 const logger = fractal.cli.console;
 

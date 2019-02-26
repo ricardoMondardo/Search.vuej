@@ -19,6 +19,21 @@
                  pTypeInfo="Item Category">
           <template v-slot:Label> <slot name="LabelCategory" /> </template>
         </x-field>
+
+        <div>
+          <span style="font-weight: bolder; padding: 1.5px 0px;"> <slot name="LabelMoaLink" /> </span>
+          <a :href="drug.LinkMoa"
+              target="_blank"> {{ this.createLink(drug.LinkMoa) }}
+          </a>
+        </div>
+
+        <div>
+          <span style="font-weight: bolder; padding: 1.5px 0px;"> <slot name="LabelActLink" /> </span>
+          <a :href="drug.LinkAct"
+              target="_blank"> {{ this.createLink(drug.LinkAct) }}
+          </a>
+        </div>
+
       </div>
     </div>
 
@@ -31,11 +46,6 @@
       <x-field :pValue="drug.Accession"
               pTypeInfo="Item Accession">
         <template v-slot:Label> <slot name="LabelAccession" /> </template>
-      </x-field>
-
-      <x-field :pValue="drug.Gene"
-              pTypeInfo="Item Gene">
-        <template v-slot:Label> <slot name="LabelGene" /> </template>
       </x-field>
     </div>
 
@@ -70,6 +80,14 @@
       this.getData()
     },
     methods: {
+      createLink: function(obj) {
+          if (obj != undefined && obj != null)
+          {
+            return obj.length <= 0 ? "No data has found" : ( obj.length <= 45 ? obj : obj.substr(0,45) + "...");
+          } else {
+            return "No data has found"
+          }
+      },
       getData: function() {
         const self = this
         var url = self.pUrl
@@ -89,11 +107,13 @@
               Accession: myJson.Data.ACCESSION,
               Gene: myJson.Data.GENE,
               ImageUrl: myJson.Data.IMAGE_URL,
+              LinkMoa: myJson.Data.MOA_SOURCE_URL,
+              LinkAct: myJson.Data.ACT_SOURCE_URL,
               IsExperience: myJson.Data.IS_EXPERIENCE
             };
 
             self.drug = obj;
-            console.log(aaa);
+            console.log('aaa');
           })
           .catch(function(e)
           {

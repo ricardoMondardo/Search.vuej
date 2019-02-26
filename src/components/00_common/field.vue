@@ -11,7 +11,8 @@ export default {
   name: 'x-field',
   props: {
     pValue: {
-      type: String
+      type: String,
+      default: "No data has found"
     },
     pTypeInfo: {
       type: String,

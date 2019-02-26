@@ -66,7 +66,7 @@
     props: {
       pUrl: {
         type: String,
-        default: "/api/drugsApi/drugs"
+        default: ""
       }
     },
     data: () => {
@@ -77,7 +77,7 @@
             totalItems: -1,
             totalPages: 0,
             totalItemsPage: 3,
-            page: 0,
+            page: -1,
             loading: false,
             searchTerm: "",
             message: ""
@@ -89,12 +89,11 @@
       }
     },
     mounted() {
-
         this.page = util.getPageFromState()
         this.searchTerm = util.getQueryFromState();
         this.pagesFastAccess = util.getFastButtonsFromState();
 
-        this.getdata(this.buildUrl());
+        if (this.page > 0) this.getdata(this.buildUrl())
     },
     methods: {
       goToPage: function(page) {
@@ -161,8 +160,8 @@
 
           if(this.page <= 0) this.page = 1;
 
-          url = this.searchTerm == "" ? `${url}?page=${this.page}&count=${this.totalItemsPage}`
-            : `${url}?q=${this.searchTerm}&page=${this.page}&count=${this.totalItemsPage}`
+          url = this.searchTerm == "" ? `${url}?PageNumber=${this.page}&PageSize=${this.totalItemsPage}`
+            : `${url}?q=${this.searchTerm}&PageNumber=${this.page}&PageSize=${this.totalItemsPage}`
 
           util.setStateInCookies(url, this.pagesFastAccess);
 
@@ -172,6 +171,7 @@
           const self = this
 
           this.loading = true;
+          this.message = "";
 
           fetch(url)
             .then(function(response) {
@@ -179,33 +179,26 @@
             })
             .then(function(myJson) {
 
-              self.totalItems = myJson.TotalItems;
-              self.totalPages = myJson.TotalPages;
-              self.page = myJson.Page;
+              self.totalItems = myJson.paging.totalItems;
+              self.totalPages = myJson.paging.totalPages;
+              self.page = myJson.paging.pageNumber;
 
-              var arrObjs = myJson.Data.map(obj => {
+              var arrObjs = myJson.items.map(obj => {
                 var rObj = { }
 
-                rObj["Id"] = obj.ID
-                rObj["Title"] = obj.DRUG_NAME
-                rObj["Category"] = obj.TARGET_CLASS
-                rObj["Image"] = obj.IMAGE_URL
+                rObj["Id"] = obj.id
+                rObj["Title"] = obj.description
+                rObj["ImgSrc"] = "https://localhost:5001/img/img-place-holder.jpg"
 
                 return rObj;
               });
 
               var arrPage = {
-                Page: myJson.Page,
+                Page: self.page,
                 arr: arrObjs
               };
 
-              if (myJson.IsInSitecore) {
-                self.drugs = [arrObjs[0]];
-                self.message = "You are in Sitecore, you'll get no more than one result here."
-              } else {
-                self.drugs = arrObjs;
-              }
-
+              self.drugs = arrObjs;
               self.dataPages.push(arrPage);
               self.loading = false;
               self.updateFastPagging();

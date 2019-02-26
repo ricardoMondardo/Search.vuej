@@ -2,11 +2,20 @@
 
 const COOKIE_NAME = 'lastState';
 
+const remove = function(cname) {
+  document.cookie = cname + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+}
+
 const save = function(cname, cvalue, exdays) {
-  var d = new Date();
-  d.setTime(d.getTime() + (exdays*24*60*60*1000));
-  var expires = "expires="+ d.toUTCString();
-  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+  if (exdays > 0) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    var expires = "expires="+ d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+  } else {
+    document.cookie = cname + "=" + cvalue + ";path=/";
+  }
+
 }
 
 const get = function(cname) {
@@ -25,6 +34,10 @@ const get = function(cname) {
   return "";
 }
 
+const removeCookie = function() {
+  return remove(COOKIE_NAME);
+}
+
 const getStateFromCookies = function() {
   return get(COOKIE_NAME);
 }
@@ -37,7 +50,7 @@ const setStateInCookies = function(url, pagesFastAccess) {
 
 
   state = state + '&fastBtns=' +pagesFastAccess.join(',');
-  save(COOKIE_NAME, state, 1);
+  save(COOKIE_NAME, state, 0);
 }
 
 const getPageFromState = function() {
@@ -75,4 +88,5 @@ export {setStateInCookies,
         getStateFromCookies,
         getPageFromState,
         getQueryFromState,
-        getFastButtonsFromState };
+        getFastButtonsFromState,
+        removeCookie };

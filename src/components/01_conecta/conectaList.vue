@@ -5,7 +5,7 @@
           <x-conectaCard
             :pId="item.Id"
             :pTitle="item.Title"
-            :pImageSrc="item.Image"
+            :pImageSrc="item.ImgSrc"
             :pCategory="item.Category">
 
             <template v-slot:LabelTitle>

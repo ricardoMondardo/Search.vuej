@@ -1,14 +1,12 @@
 {
   "context": {
-      "Sitecore": {
-          "Title": "FIND A MEDICINE!",
-          "SubTitle": "Lorem sopt cursus neque cursus curae ante scelerisque vehicula",
-          "FieldText": "Field text",
-          "CardLabelTitle": "Title:",
-          "CardLabelCategory": "Category:",
-          "url": "http://conecta.local/api/drugsApi/drugs",
-          "imgBanner": "/img/imgBanner.jpeg"
-      }
+        "Title": "FIND A Product!",
+        "SubTitle": "Lorem sopt cursus neque cursus curae ante scelerisque vehicula",
+        "FieldText": "Field text",
+        "CardLabelTitle": "Title:",
+        "CardLabelCategory": "Category:",
+        "url": "https://localhost:5001/api/resources/products/",
+        "imgBanner": "https://localhost:5001/img/banner.jpeg"
   },
   "notes": "These are some **notes** about the component",
   "status": "wip"
