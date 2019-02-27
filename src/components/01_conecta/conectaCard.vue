@@ -19,6 +19,10 @@
         <template v-slot:Label> <slot name="LabelCategory" /> </template>
       </x-field>
     </div>
+
+    <div class="conectaCard__lock">
+      <x-lock :pLock="false"/>
+    </div>
   </div>
 
 </template>

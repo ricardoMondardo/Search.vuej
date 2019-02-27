@@ -7,7 +7,11 @@
 @import '00_common/pagination';
 @import '00_common/button';
 @import '00_common/spiner';
+@import '00_common/lock';
+@import '00_common/unlock';
 
 @import '01_conecta/_conecta';
 @import '01_conecta/_conectaCard';
 @import '01_conecta/_conectalist';
+
+@import '02_conectaDetail/_conectaDetail';
