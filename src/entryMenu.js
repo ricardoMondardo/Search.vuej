@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import components from './components/02_conectaDetail';
+import components from './components/03_menu';
 
 //
 // Stylesheet
@@ -19,11 +19,12 @@ components.forEach((component) => {
 // Plugins
 //
 
+
 //
 // Start
 //
 const rootDetail = new Vue({
-  el: '#vue-containerDetail'
+  el: '#vue-menu'
 })
 
 console.log("vue-container detail just built")

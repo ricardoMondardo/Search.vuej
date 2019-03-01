@@ -1,5 +1,4 @@
 import Vue from 'vue'
-import Sitecore from './plugins/sitecore'
 import components from './components/01_conecta';
 
 //
@@ -15,11 +14,10 @@ components.forEach((component) => {
   Vue.component(component.name, component)
 })
 
-
 //
 // Plugins
 //
-Vue.use(Sitecore)
+
 
 //
 // Start
