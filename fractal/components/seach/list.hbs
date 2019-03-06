@@ -1,5 +1,8 @@
 <div id="vue-container">
-    <x-conecta p-url="{{ url }}">
+
+    {{ render "@menu" }}
+
+    <x-search p-url="{{ url }}">
 
         <template slot="title">
           {{ Title }}
@@ -21,7 +24,7 @@
           {{ CardLabelCategory }}
         </template>
 
-    </x-conecta>
+    </x-search>
 </div>
 
-<script src="{{ path '/conecta.bundle.js' }}"></script>
+<script src="{{ path '/search.bundle.js' }}"></script>

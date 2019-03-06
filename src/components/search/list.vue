@@ -1,8 +1,8 @@
 <template>
-  <div class="conectaList">
-    <ul v-if="pCollection.length > 0">
-      <li v-for="item in pCollection">
-          <x-conectaCard
+  <div class="searchList">
+    <ul v-if="pCollection != undefined && pCollection.length > 0">
+      <li v-for="item in pCollection" :key="item.id">
+          <x-card
             :pId="item.Id"
             :pTitle="item.Title"
             :pImageSrc="item.ImgSrc"
@@ -16,7 +16,7 @@
               <slot name="CardLabelCategory" />
             </template>
 
-          </x-conectaCard>
+          </x-card>
       </li>
     </ul>
   </div>
@@ -24,11 +24,11 @@
 
 <script>
   export default {
-    name: 'x-conectaList',
+    name: 'x-list',
     props: {
       pCollection: {
         type: [Array, Object],
-        required: true
+        required: false
       }
     }
   }

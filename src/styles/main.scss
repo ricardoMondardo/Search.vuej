@@ -10,8 +10,6 @@
 @import '00_common/lock';
 @import '00_common/unlock';
 
-@import '01_conecta/_conecta';
-@import '01_conecta/_conectaCard';
-@import '01_conecta/_conectalist';
-
-@import '02_conectaDetail/_conectaDetail';
+@import '01_search/_search';
+@import '01_search/_searchCard';
+@import '01_search/_searchlist';

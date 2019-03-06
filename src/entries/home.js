@@ -1,10 +1,10 @@
 import Vue from 'vue'
-import components from './components/03_menu';
+import components from '../components/home';
 
 //
 // Stylesheet
 //
-import './styles/main.scss'
+import '../styles/main.scss'
 
 
 //
@@ -14,7 +14,6 @@ components.forEach((component) => {
   Vue.component(component.name, component)
 })
 
-
 //
 // Plugins
 //
@@ -23,8 +22,8 @@ components.forEach((component) => {
 //
 // Start
 //
-const rootDetail = new Vue({
-  el: '#vue-menu'
+const root = new Vue({
+  el: '#vue-container'
 })
 
-console.log("vue-container detail just built")
+console.log("vue-container just built")

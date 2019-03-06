@@ -1,6 +1,6 @@
 <template>
   <div>
-      Hello, I will be a Menu
+      <slot name="menu-items" />
   </div>
 </template>
 

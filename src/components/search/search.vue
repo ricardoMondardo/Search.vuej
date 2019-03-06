@@ -1,50 +1,50 @@
 <template>
-  <div class="c-conecta">
+  <div class="c-search">
 
-    <div class="c-conecta__top-container">
-      <div class="c-conecta__img-banner">
+    <div class="c-search__top-container">
+      <div class="c-search__img-banner">
         <slot name="imgBanner" />
       </div>
 
-      <div class="c-conecta__title">
+      <div class="c-search__title">
         <slot name="title" />
       </div>
 
-      <div class="c-conecta__subtitle">
+      <div class="c-search__subtitle">
         <slot name="subTitle" />
       </div>
 
-      <div class="c-conecta__input-container">
+      <div class="c-search__input-container">
         <input v-model="searchTerm"
               placeholder="Ex. Lorem"
               @keyup.enter="search">
         <button v-on:click="search">Search</button>
       </div>
 
-      <div class="c-conecta__message">
+      <div class="c-search__message">
         <span v-if="message.length > 0">
           {{ message }}
         </span>
       </div>
     </div>
 
-    <div class="c-conecta__botton-container">
-      <div v-if="loading" class="c-conecta__spiner">
+    <div class="c-search__botton-container">
+      <div v-if="loading" class="c-search__spiner">
         <x-spiner />
       </div>
       <div v-else>
-        <x-conectaList :pCollection="drugs">
+        <x-list :pCollection="drugs">
           <template v-slot:CardLaLabelTitle>
               <slot name="cardLabelTitle" />
           </template>
           <template v-slot:CardLabelCategory>
             <slot name="cardLabelCategory" />
           </template>
-        </x-conectaList>
+        </x-list>
       </div>
     </div>
 
-    <div class="c-conecta__pagination">
+    <div class="c-search__pagination">
       <x-paggination v-on:next="next"
                      v-on:previous="previous"
                      v-on:goToPage="goToPage"
@@ -59,10 +59,10 @@
 
 <script>
 
-  var util = require('../99_util/Util');
+  var util = require('../../util/Util');
 
   export default {
-    name: 'x-conecta',
+    name: 'x-search',
     props: {
       pUrl: {
         type: String,

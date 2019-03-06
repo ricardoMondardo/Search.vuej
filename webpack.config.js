@@ -7,9 +7,9 @@ const { VueLoaderPlugin } = require('vue-loader')
 
 module.exports = {
   entry: {
-    conecta: path.resolve(__dirname, './src/mainConecta.js'),
-    conectaDetail: path.resolve(__dirname, './src/mainConectaDetail.js'),
-    menu: path.resolve(__dirname, './src/entryMenu.js')
+    home: path.resolve(__dirname, './src/entries/home.js'),
+    search: path.resolve(__dirname, './src/entries/search.js'),
+    account: path.resolve(__dirname, './src/entries/account.js')
   },
   output: {
     path: path.resolve(__dirname, './build'),

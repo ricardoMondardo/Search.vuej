@@ -1,10 +1,10 @@
 import Vue from 'vue'
-import components from './components/01_conecta';
+import components from '../components/search';
 
 //
 // Stylesheet
 //
-import './styles/main.scss'
+import '../styles/main.scss'
 
 
 //
@@ -14,16 +14,16 @@ components.forEach((component) => {
   Vue.component(component.name, component)
 })
 
+
 //
 // Plugins
 //
 
-
 //
 // Start
 //
-const root = new Vue({
+const rootDetail = new Vue({
   el: '#vue-container'
 })
 
-console.log("vue-container just built")
+console.log("vue-container detail just built")
