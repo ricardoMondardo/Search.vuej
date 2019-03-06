@@ -2,29 +2,14 @@
 
     {{ render "@menu" }}
 
-    <x-search p-url="{{ url }}">
-
-        <template slot="title">
-          {{ Title }}
-        </template>
-
-        <template slot="subTitle">
-            {{ SubTitle }}
-        </template>
-
-        <template slot="imgBanner">
-          <img src="{{ imgBanner }}" />
-        </template>
-
-        <template slot="cardLabelTitle">
-          {{ CardLabelTitle }}
-        </template>
-
-        <template slot="cardLabelCategory">
-          {{ CardLabelCategory }}
-        </template>
-
+    <x-search p-url="{{ Url }}"
+              p-title="{{ Title }}"
+              p-subtitle="{{ SubTitle }}"
+              p-imgbanner="{{ ImgBanner }}"
+              p-cardlabeltitle="{{ CardLabelTitle }}"
+              p-cardlabelcategory="{{ CardLabelCategory }}">
     </x-search>
+
 </div>
 
 <script src="{{ path '/search.bundle.js' }}"></script>

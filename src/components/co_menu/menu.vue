@@ -1,6 +1,7 @@
 <template>
   <div>
       <slot name="menu-items" />
+      <hr />
   </div>
 </template>
 

@@ -5,8 +5,8 @@
         "FieldText": "Field text",
         "CardLabelTitle": "Title:",
         "CardLabelCategory": "Category:",
-        "url": "https://localhost:5001/api/resources/products/",
-        "imgBanner": "https://localhost:5001/img/banner.jpeg"
+        "Url": "https://localhost:5001/api/resources/products/",
+        "ImgBanner": "https://localhost:5001/img/banner.jpeg"
   },
   "notes": "These are some **notes** about the component",
   "status": "wip"

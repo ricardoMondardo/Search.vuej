@@ -3,15 +3,15 @@
 
     <div class="c-search__top-container">
       <div class="c-search__img-banner">
-        <slot name="imgBanner" />
+        <img :src="pImgbanner" />
       </div>
 
       <div class="c-search__title">
-        <slot name="title" />
+        {{ pTitle }}
       </div>
 
       <div class="c-search__subtitle">
-        <slot name="subTitle" />
+        {{ pSubtitle }}
       </div>
 
       <div class="c-search__input-container">
@@ -35,10 +35,10 @@
       <div v-else>
         <x-list :pCollection="drugs">
           <template v-slot:CardLaLabelTitle>
-              <slot name="cardLabelTitle" />
+            {{ pCardlabeltitle }}
           </template>
           <template v-slot:CardLabelCategory>
-            <slot name="cardLabelCategory" />
+            {{ pCardlabelcategory }}
           </template>
         </x-list>
       </div>
@@ -59,12 +59,32 @@
 
 <script>
 
-  var util = require('../../util/Util');
+  var util = require('../../util/searchCookies');
 
   export default {
     name: 'x-search',
     props: {
       pUrl: {
+        type: String,
+        default: ""
+      },
+      pTitle: {
+        type: String,
+        default: ""
+      },
+      pSubtitle: {
+        type: String,
+        default: "Defaut value"
+      },
+      pImgbanner: {
+        type: String,
+        default: ""
+      },
+      pCardlabeltitle: {
+        type: String,
+        default: ""
+      },
+      pCardlabelcategory: {
         type: String,
         default: ""
       }
