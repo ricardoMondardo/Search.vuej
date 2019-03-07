@@ -18,8 +18,6 @@
       Log out
     </button>
 
-
-
   </div>
 </template>
 
@@ -49,7 +47,7 @@ export default {
 
       const fetchPost = require('../../util/fetchPost')
 
-      fetchPost.postData("https://localhost:5001/api/Auth/Login", {
+      fetchPost.postData("api/Auth/Login", {
             email: this.username,
             password: this.password
         })

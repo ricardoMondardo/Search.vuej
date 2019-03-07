@@ -1,5 +1,8 @@
 const postData = function (url = ``, data = {}) {
 
+  const inInFractal = window.location.port == "3000"
+  url = inInFractal ? `https://localhost:5001/${url}` : `/${url}`
+
   // Default options are marked with *
     return fetch(url, {
         method: "POST",
