@@ -1,22 +1,46 @@
+const handleErrors = function (response) {
+  if(!response.ok && response.status != 401) {
+    throw Error(`Code: ${response.status}, Message: ${response.statusText}`)
+  }
+  return response
+}
+
 const postData = function (url = ``, data = {}) {
 
   const inInFractal = window.location.port == "3000"
   url = inInFractal ? `https://localhost:5001/${url}` : `/${url}`
 
-  // Default options are marked with *
-    return fetch(url, {
+  const result = new Promise(
+    function(resolve, reject) {
+
+      fetch(url, {
         method: "POST",
-        mode: "cors", // no-cors, cors, *same-origin
-        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-        credentials: "same-origin", // include, *same-origin, omit
+        mode: "cors",
+        cache: "no-cache",
+        credentials: "same-origin",
         headers: {
-            "Content-Type": "application/json",
-            // "Content-Type": "application/x-www-form-urlencoded",
+            "Content-Type": "application/json"
         },
-        redirect: "follow", // manual, *follow, error
-        referrer: "no-referrer", // no-referrer, *client
-        body: JSON.stringify(data), // body data type must match "Content-Type" header
-    });
+        redirect: "follow",
+        referrer: "no-referrer",
+        body: JSON.stringify(data),
+      })
+      .then(handleErrors)
+      .then((res) => {
+        return resolve({
+          code: res.status,
+          response: res.json()
+        })
+      })
+      .catch((error) => {
+        reject(error)
+      })
+
+    }
+  )
+
+
+  return result;
 
 }
 

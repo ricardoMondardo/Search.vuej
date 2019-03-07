@@ -1,5 +1,8 @@
 import Vue from 'vue'
+import Vuex from 'vuex'
+
 import components from '../components/home';
+import { storeObj } from '../stores/managerStore'
 
 //
 // Stylesheet
@@ -17,13 +20,15 @@ components.forEach((component) => {
 //
 // Plugins
 //
-
+Vue.use(Vuex)
+const store = new Vuex.Store(storeObj)
 
 //
 // Start
 //
 const root = new Vue({
-  el: '#vue-container'
+  el: '#vue-container',
+  store
 })
 
 console.log("vue-container just built")

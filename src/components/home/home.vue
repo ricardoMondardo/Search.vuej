@@ -1,6 +1,6 @@
 <template>
   <div class="c-home">
-    Hellow from .vue
+    <h1> Home </h1>
   </div>
 </template>
 

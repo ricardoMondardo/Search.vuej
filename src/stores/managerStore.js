@@ -1,5 +1,12 @@
 'use strict';
 
+import VuexPersist from 'vuex-persist';
+
+const vuexLocalStorage = new VuexPersist({
+  key: 'vuex',
+  storage: window.localStorage
+})
+
 const storeObj = {
   state: {
     user: {
@@ -14,7 +21,8 @@ const storeObj = {
     logOutUser (state) {
       state.user.logged = false
     }
-  }
+  },
+  plugins: [vuexLocalStorage.plugin]
 }
 
 export { storeObj }

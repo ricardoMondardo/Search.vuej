@@ -1,0 +1,31 @@
+.menu-container {
+  border-bottom: 1px solid black;
+  padding: 10px 0px;
+
+  .menu-container-pages {
+
+    & ul, li {
+      display: inline;
+      padding: 0px 5px;
+    }
+
+    & ul, li, a {
+      text-decoration: none;
+    }
+
+  }
+
+  .menu-container-auth {
+    position: absolute;
+    top: 12px;
+    right: 10px;
+
+    & ul, li {
+      display: inline;
+      padding: 0px 5px;
+    }
+
+  }
+
+}
+

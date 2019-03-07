@@ -17,6 +17,7 @@ Components.forEach((component) => {
   Vue.component(component.name, component)
 })
 
+
 //
 // Plugins
 //

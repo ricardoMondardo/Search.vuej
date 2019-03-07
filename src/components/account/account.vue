@@ -2,21 +2,12 @@
   <div>
 
     <h1> Account </h1>
-    <div>
-        <span>Welcome</span>
-    </div>
     <div v-if="message.length > 0">
       {{ message }}
     </div>
 
     <x-login v-if="!this.$store.state.user.logged"
-            v-on:login="login"
-            :pEmail="username"
-            :pPassword="password" />
-    <button v-else
-            v-on:click="logOut">
-      Log out
-    </button>
+            v-on:login="login" />
 
   </div>
 </template>
@@ -26,21 +17,19 @@ export default {
   name: 'x-account',
   data: () => {
     return {
-      username: "ricardo9300@gmail.com",
-      password: "abc123",
-      message: ""
+      message: " "
     }
   },
   methods: {
-    login: function() {
+    login: function(email, password) {
       const self = this
 
-      if (this.username.length <= 0) {
+      if (email.length <= 0) {
         this.message = "Name cannot be empty"
         return false
       }
 
-      if (this.password.length <= 0) {
+      if (password.length <= 0) {
         this.message = "Password cannot be empty"
         return false
       }
@@ -48,16 +37,22 @@ export default {
       const fetchPost = require('../../util/fetchPost')
 
       fetchPost.postData("api/Auth/Login", {
-            email: this.username,
-            password: this.password
+            email: email,
+            password: password
         })
-      .then(res => res.json()) // parses response to JSON
-      .then(res => console.log(res))
-      .then(self.$store.commit('logInUser'))
-      .catch(error => console.error('Error:', error));
-    },
-    logOut: function() {
-      this.$store.commit('logOutUser')
+      .then((res) => {
+        if(res.code == 401) {
+          self.message = "email or password incorect"
+        } else {
+          self.message = ""
+          self.$store.commit('logInUser')
+        }
+      })
+      .catch((error) => {
+        console.log(error)
+        self.message = "sorry, something goes wrong, try again later"
+      });
+
     }
   }
 }

@@ -1,11 +1,11 @@
 <template>
   <div>
-    <input v-model="pEmail"
+    <input v-model="email"
             placeholder="Email">
-    <input v-model="pPassword"
+    <input v-model="password"
           placeholder="password"
-          @keyup.enter="login">
-    <button v-on:click="$emit('login')">
+          @keyup.enter="$emit('login', email, password)">
+    <button v-on:click="$emit('login', email, password)">
       Log in
     </button>
   </div>
@@ -14,14 +14,10 @@
 <script>
 export default {
   name: 'x-login',
-  props: {
-    pEmail: {
-      type: String,
-      defaul: ""
-    },
-    pPassword: {
-      type: String,
-      defaul: ""
+  data: () => {
+    return {
+      email: "ricardo9300@gmail.com",
+      password: "abc123"
     }
   }
 }
