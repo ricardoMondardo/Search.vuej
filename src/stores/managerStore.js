@@ -11,15 +11,18 @@ const storeObj = {
   state: {
     user: {
       logged: false,
-      Email: ""
+      Email: "",
+      token: ""
     }
   },
   mutations: {
-    logInUser (state) {
+    logInUser (state, token) {
       state.user.logged = true
+      state.user.token = token
     },
     logOutUser (state) {
       state.user.logged = false
+      state.user.token = ""
     }
   },
   plugins: [vuexLocalStorage.plugin]

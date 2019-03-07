@@ -193,17 +193,18 @@
           this.loading = true;
           this.message = "";
 
-          fetch(url)
-            .then(function(response) {
-              return response.json();
-            })
-            .then(function(myJson) {
+          const fetchGet = require('../../util/fetchGet')
 
-              self.totalItems = myJson.paging.totalItems;
-              self.totalPages = myJson.paging.totalPages;
-              self.page = myJson.paging.pageNumber;
+          console.log('oell')
 
-              var arrObjs = myJson.items.map(obj => {
+          fetchGet.getData(url, this.$store.state.user.token)
+            .then((res) => {
+
+              self.totalItems = res.paging.totalItems;
+              self.totalPages = res.paging.totalPages;
+              self.page = res.paging.pageNumber;
+
+              var arrObjs = res.items.map(obj => {
                 var rObj = { }
 
                 rObj["Id"] = obj.id
@@ -223,11 +224,19 @@
               self.loading = false;
               self.updateFastPagging();
             })
-            .catch(function(e)
+            .catch(function(error)
             {
               self.loading = false;
-              self.message = "Some thing goes wrong, sorry."
-              console.log(e)
+
+              if (error.message == "401") {
+                self.message = "401 - UnAuthorized."
+                self.drugs = []
+                self.dataPages = []
+              } else {
+                self.message = "Some thing goes wrong, sorry."
+                console.log(e)
+              }
+
               return false
             });
       }

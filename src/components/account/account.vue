@@ -41,16 +41,15 @@ export default {
             password: password
         })
       .then((res) => {
-        if(res.code == 401) {
-          self.message = "email or password incorect"
-        } else {
-          self.message = ""
-          self.$store.commit('logInUser')
-        }
+        self.message = ""
+        self.$store.commit('logInUser', res.token)
       })
       .catch((error) => {
-        console.log(error)
-        self.message = "sorry, something goes wrong, try again later"
+        if (error.message == "401") {
+          self.message = "Email or password incorect"
+        } else {
+          self.message = "Sorry, something goes wrong, try again later"
+        }
       });
 
     }

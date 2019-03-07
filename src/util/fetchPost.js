@@ -1,6 +1,6 @@
 const handleErrors = function (response) {
-  if(!response.ok && response.status != 401) {
-    throw Error(`Code: ${response.status}, Message: ${response.statusText}`)
+  if(!response.ok) {
+    throw Error(response.status)
   }
   return response
 }
@@ -10,7 +10,7 @@ const postData = function (url = ``, data = {}) {
   const inInFractal = window.location.port == "3000"
   url = inInFractal ? `https://localhost:5001/${url}` : `/${url}`
 
-  const result = new Promise(
+  const obj = new Promise(
     function(resolve, reject) {
 
       fetch(url, {
@@ -27,10 +27,7 @@ const postData = function (url = ``, data = {}) {
       })
       .then(handleErrors)
       .then((res) => {
-        return resolve({
-          code: res.status,
-          response: res.json()
-        })
+        return resolve(res.json())
       })
       .catch((error) => {
         reject(error)
@@ -39,8 +36,7 @@ const postData = function (url = ``, data = {}) {
     }
   )
 
-
-  return result;
+  return obj;
 
 }
 
