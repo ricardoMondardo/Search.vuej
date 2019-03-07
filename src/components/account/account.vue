@@ -1,5 +1,6 @@
 <template>
   <div>
+
     <h1> Account </h1>
     <div>
         <span>Welcome</span>
@@ -8,9 +9,16 @@
       {{ message }}
     </div>
 
-    <x-login v-on:login="login"
+    <x-login v-if="!this.$store.state.user.logged"
+            v-on:login="login"
             :pEmail="username"
             :pPassword="password" />
+    <button v-else
+            v-on:click="logOut">
+      Log out
+    </button>
+
+
 
   </div>
 </template>
@@ -27,6 +35,7 @@ export default {
   },
   methods: {
     login: function() {
+      const self = this
 
       if (this.username.length <= 0) {
         this.message = "Name cannot be empty"
@@ -46,9 +55,11 @@ export default {
         })
       .then(res => res.json()) // parses response to JSON
       .then(res => console.log(res))
+      .then(self.$store.commit('logInUser'))
       .catch(error => console.error('Error:', error));
-
-
+    },
+    logOut: function() {
+      this.$store.commit('logOutUser')
     }
   }
 }

@@ -7,7 +7,8 @@
     "watch:prod": "webpack --production --watch"
   },
   "dependencies": {
-    "vue": "^2.6.6"
+    "vue": "^2.6.6",
+    "vuex": "^3.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",
