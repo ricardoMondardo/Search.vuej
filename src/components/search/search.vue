@@ -58,9 +58,6 @@
 </template>
 
 <script>
-
-  var util = require('../../util/searchCookies');
-
   export default {
     name: 'x-search',
     props: {
@@ -108,13 +105,9 @@
         return this.page + ' of ' + this.totalPages;
       }
     },
-    mounted() {
-        this.page = util.getPageFromState()
-        this.searchTerm = util.getQueryFromState();
-        this.pagesFastAccess = util.getFastButtonsFromState();
-
-        if (this.page > 0) this.getdata(this.buildUrl())
-    },
+    // mounted() {
+    //
+    // },
     methods: {
       goToPage: function(page) {
         if (page > this.totalPages || page < 0) return false
@@ -183,8 +176,6 @@
           url = this.searchTerm == "" ? `${url}?PageNumber=${this.page}&PageSize=${this.totalItemsPage}`
             : `${url}?q=${this.searchTerm}&PageNumber=${this.page}&PageSize=${this.totalItemsPage}`
 
-          util.setStateInCookies(url, this.pagesFastAccess);
-
           return url;
       },
       getdata: function (url) {
@@ -194,8 +185,6 @@
           this.message = "";
 
           const fetchGet = require('../../util/fetchGet')
-
-          console.log('oell')
 
           fetchGet.getData(url, this.$store.state.user.token)
             .then((res) => {
