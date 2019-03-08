@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import components from '../components/search';
+import components from '../components/mo_search';
 import { storeObj } from '../stores/managerStore'
 
 // Stylesheet

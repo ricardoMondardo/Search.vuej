@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import components from '../components/home';
+import components from '../components/mo_home';
 import { storeObj } from '../stores/managerStore'
 
 //

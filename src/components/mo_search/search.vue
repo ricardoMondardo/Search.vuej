@@ -3,11 +3,13 @@
 
     <x-buttonhamburger />
 
-    <x-menu>
+    <x-main-nav>
       <template slot="menu-items">
         <slot name="menu-items" />
       </template>
-    </x-menu>
+    </x-main-nav>
+
+     <x-auth-op />
 
     <div class="c-search__top-container">
       <div class="c-search__img-banner">
@@ -82,6 +84,10 @@
         default: "Defaut value"
       },
       pImgbanner: {
+        type: String,
+        default: ""
+      },
+      pImgbannermd: {
         type: String,
         default: ""
       },

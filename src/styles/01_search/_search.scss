@@ -1,6 +1,9 @@
 .c-search {
   margin: 15px auto;
-  width: 750px;
+
+  @media only screen and (min-width: 812px) {
+    width: 740px;
+  }
 
   &__top-container {
     display: inline-block;
@@ -18,7 +21,7 @@
     & > img {
       pointer-events: none;
       position: absolute;
-      width: 100%;
+      width: 740px;
       height: 250px;
       left: 0;
       z-index: -2;
@@ -36,25 +39,25 @@
   }
 
   &__title {
-    margin: 25px auto auto 0px;
+    margin: 5px auto auto 0px;
     font-weight: bolder;
-    font-size: 3.75rem;
+    font-size: 2.35rem;
     letter-spacing: 1.8px;
   }
 
   &__subtitle {
-    margin: 5px auto;
+    margin: 5px 5px;
   }
 
   &__input-container {
-    margin: 15px auto;
+    margin: 15px 5px;
 
     & > input {
       border-top-left-radius: 3px;
       border-bottom-left-radius: 3px;
       border-color: #fff;
-      width: 250px;
-      height: 37px; //41 Sitecore //37 fractal
+      width: 200px;
+      height: 37px;
       padding: 0px 10px;
       box-shadow: 0 0 50px 0 rgba(0,0,0,.35);
       color: black;
@@ -101,7 +104,7 @@
 
   &__botton-container {
     display: inline-block;
-    width: 750px;
+    width: 100%;
     height: 450px;
     background-color: $SmokeBackGround;
     margin: auto;

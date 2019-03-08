@@ -27,8 +27,8 @@ const storeObj = {
       state.user.logged = false
       state.user.token = ""
     },
-    toogleTopMenu (state) {
-      state.UIControl.showTopMenu = !state.UIControl.showTopMenu
+    openTopMenu (state, value) {
+      state.UIControl.showTopMenu = value
     }
   },
   plugins: [vuexLocalStorage.plugin]

@@ -6,7 +6,8 @@
         "CardLabelTitle": "Title:",
         "CardLabelCategory": "Category:",
         "Url": "https://localhost:5001/api/resources/products/",
-        "ImgBanner": "https://localhost:5001/img/banner.jpeg"
+        "ImgBanner": "https://localhost:5001/img/banner.jpeg",
+        "ImgBannerMd": "https://localhost:5001/img/banner-md.jpeg"
   },
   "notes": "These are some **notes** about the component",
   "status": "wip"

@@ -3,11 +3,13 @@
 
     <x-buttonhamburger />
 
-    <x-menu>
+    <x-main-nav>
       <template slot="menu-items">
         <slot name="menu-items" />
       </template>
-    </x-menu>
+    </x-main-nav>
+
+    <x-auth-op />
 
     <h1> Home - Welcome! </h1>
   </div>
