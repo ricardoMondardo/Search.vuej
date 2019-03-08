@@ -1,5 +1,5 @@
 <template>
-  <div class="c-search">
+  <div class="site-content c-search">
 
     <x-buttonhamburger />
 
@@ -38,6 +38,16 @@
       </div>
     </div>
 
+    <div class="c-search__pagination">
+      <x-paggination v-on:next="next"
+                     v-on:previous="previous"
+                     v-on:goToPage="goToPage"
+                     :pPagesFastAccess="pagesFastAccess"
+                     :pPage="page"
+                     :pTotalPages="totalPages"
+                     :pPageOf="PageOf" />
+    </div>
+
     <div class="c-search__botton-container">
       <div v-if="loading" class="c-search__spiner">
         <x-spiner />
@@ -52,16 +62,6 @@
           </template>
         </x-list>
       </div>
-    </div>
-
-    <div class="c-search__pagination">
-      <x-paggination v-on:next="next"
-                     v-on:previous="previous"
-                     v-on:goToPage="goToPage"
-                     :pPagesFastAccess="pagesFastAccess"
-                     :pPage="page"
-                     :pTotalPages="totalPages"
-                     :pPageOf="PageOf" />
     </div>
 
   </div>
@@ -235,6 +235,7 @@
                 self.message = "401 - UnAuthorized."
                 self.drugs = []
                 self.dataPages = []
+                this.$store.commit('logOutUser')
               } else {
                 self.message = "Some thing goes wrong, sorry."
                 console.log(e)

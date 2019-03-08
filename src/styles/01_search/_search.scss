@@ -1,9 +1,4 @@
 .c-search {
-  margin: 15px auto;
-
-  @media only screen and (min-width: 812px) {
-    width: 740px;
-  }
 
   &__top-container {
     display: inline-block;
@@ -11,7 +6,6 @@
     position: relative;
     width: 100%;
     text-align: center;
-    font-family: $PrimaryFont;
     color: #fff;
     border-radius: 3px;
   }
@@ -105,8 +99,6 @@
   &__botton-container {
     display: inline-block;
     width: 100%;
-    height: 450px;
-    background-color: $SmokeBackGround;
     margin: auto;
     text-align: center;
   }

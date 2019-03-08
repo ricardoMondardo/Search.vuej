@@ -1,0 +1,11 @@
+.site-content {
+  margin: 15px auto;
+  //background: $SmokeBackGround;
+  font-family: $PrimaryFont;
+
+  @media only screen and (min-width: 812px) {
+    width: 740px;
+    padding: 0px 10px;
+  }
+
+}

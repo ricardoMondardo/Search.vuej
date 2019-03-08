@@ -1,5 +1,5 @@
 <template>
-  <div class="c-home">
+  <div class="site-content c-home">
 
     <x-buttonhamburger />
 

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="site-content">
 
     <x-buttonhamburger />
 
@@ -9,7 +9,7 @@
       </template>
     </x-main-nav>
 
-    <x-auth-op />
+    <x-auth-op :pHideLogin="false"/>
 
     <h1> Account </h1>
     <div v-if="message.length > 0">

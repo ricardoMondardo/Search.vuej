@@ -5,7 +5,11 @@
       Log out
     </button>
     <span v-else>
-      Welcome Guest!
+      <span v-if="pHideLogin">
+        <a href="/pageaccount">
+          Log in
+        </a>
+      </span>
     </span>
   </div>
 </template>
@@ -13,6 +17,12 @@
 <script>
 export default {
   name: "x-auth-op",
+  props: {
+    pHideLogin: {
+      type: Boolean,
+      default: true
+    }
+  },
   computed: {
     logged: function() {
       return this.$store.state.user.logged
