@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 import Components from '../components/account'
+
 import { storeObj } from '../stores/managerStore'
 
 //

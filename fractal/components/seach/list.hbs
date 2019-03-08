@@ -1,15 +1,13 @@
 <div id="vue-container">
-
-    {{ render "@menu" }}
-
     <x-search p-url="{{ Url }}"
               p-title="{{ Title }}"
               p-subtitle="{{ SubTitle }}"
               p-imgbanner="{{ ImgBanner }}"
               p-cardlabeltitle="{{ CardLabelTitle }}"
               p-cardlabelcategory="{{ CardLabelCategory }}">
-    </x-search>
 
+      {{ render "@menu" }}
+    </x-search>
 </div>
 
 <script src="{{ path '/search.bundle.js' }}"></script>

@@ -9,6 +9,8 @@ import Field from '../00_common/field'
 import Spiner from '../00_common/spiner'
 import Lock from '../00_common/lock'
 
+import ButtonHamburger from '../00_common/button-hamburger'
+
 export default [
   Search,
   List,
@@ -17,5 +19,6 @@ export default [
   Menu,
   Field,
   Spiner,
-  Lock
+  Lock,
+  ButtonHamburger
 ]

@@ -13,6 +13,9 @@ const storeObj = {
       logged: false,
       Email: "",
       token: ""
+    },
+    UIControl: {
+      showTopMenu: false
     }
   },
   mutations: {
@@ -23,6 +26,9 @@ const storeObj = {
     logOutUser (state) {
       state.user.logged = false
       state.user.token = ""
+    },
+    toogleTopMenu (state) {
+      state.UIControl.showTopMenu = !state.UIControl.showTopMenu
     }
   },
   plugins: [vuexLocalStorage.plugin]

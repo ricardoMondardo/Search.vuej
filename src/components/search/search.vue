@@ -1,6 +1,14 @@
 <template>
   <div class="c-search">
 
+    <x-buttonhamburger />
+
+    <x-menu>
+      <template slot="menu-items">
+        <slot name="menu-items" />
+      </template>
+    </x-menu>
+
     <div class="c-search__top-container">
       <div class="c-search__img-banner">
         <img :src="pImgbanner" />
