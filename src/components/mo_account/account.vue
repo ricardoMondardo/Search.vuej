@@ -9,7 +9,7 @@
       </template>
     </x-main-nav>
 
-    <x-auth-op :pHideLogin="false"/>
+    <x-auth-nav :pHideLogin="false"/>
 
     <h1> Account </h1>
     <div v-if="message.length > 0">
@@ -61,7 +61,11 @@ export default {
       .then((res) => {
         this.status = "LOGGED"
         self.message = ""
-        self.$store.commit('logInUser', res.token)
+        self.$store.commit('logInUser', {
+          id: res.id,
+          token: res.token,
+          tokenExpirationTime: res.tokenExpirationTime
+        })
       })
       .catch((error) => {
         if (error.message == "401") {

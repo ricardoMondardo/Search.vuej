@@ -9,7 +9,7 @@
       </template>
     </x-main-nav>
 
-     <x-auth-op />
+     <x-auth-nav />
 
     <div class="c-search__top-container">
       <div class="c-search__img-banner">
@@ -212,7 +212,7 @@
 
                 rObj["Id"] = obj.id
                 rObj["Title"] = obj.description
-                rObj["ImgSrc"] = "https://localhost:5001/img/img-place-holder.jpg"
+                rObj["ImgSrc"] = "https://rmondardo.com/img/img-place-holder.jpg"
 
                 return rObj;
               });

@@ -3,6 +3,8 @@ import Vuex from 'vuex'
 
 import components from '../components/mo_search';
 import { storeObj } from '../stores/managerStore'
+import { autoLogoutUser } from '../util/auto-logout-user'
+
 
 // Stylesheet
 import '../styles/main.scss'
@@ -19,7 +21,9 @@ const store = new Vuex.Store(storeObj)
 // Start
 const rootDetail = new Vue({
   el: '#vue-container',
-  store
+  store,
+  mounted() {
+    autoLogoutUser(store)
+  }
 })
 
-console.log("vue-container detail just built")

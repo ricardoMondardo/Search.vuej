@@ -4,6 +4,7 @@ import Vuex from 'vuex'
 import Components from '../components/mo_account'
 
 import { storeObj } from '../stores/managerStore'
+import { autoLogoutUser } from '../util/auto-logout-user'
 
 //
 // Stylesheet
@@ -30,7 +31,11 @@ const store = new Vuex.Store(storeObj)
 //
 const root = new Vue({
   el: '#vue-container',
-  store
+  store,
+  mounted() {
+    autoLogoutUser(store)
+  }
 })
+
 
 console.log("vue-container just built")

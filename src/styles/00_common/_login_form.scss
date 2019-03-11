@@ -1,0 +1,16 @@
+.c-login-form {
+  background: $SmokeBackGround;
+  border-radius: 3px;
+  margin: 15px 2%;
+
+  &__title {
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  & > input {
+    display: block;
+    margin: 10px auto;
+  }
+
+}

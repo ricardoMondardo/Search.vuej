@@ -1,3 +1,5 @@
+'use strict';
+
 const handleErrors = function (response) {
   if(!response.ok) {
     throw Error(response.status)

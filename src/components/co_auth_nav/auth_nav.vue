@@ -16,7 +16,7 @@
 
 <script>
 export default {
-  name: "x-auth-op",
+  name: "x-auth-nav",
   props: {
     pHideLogin: {
       type: Boolean,

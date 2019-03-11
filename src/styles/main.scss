@@ -4,17 +4,20 @@
 @import '_variables';
 
 @import '00_common/field';
-@import '00_common/pagination';
 @import '00_common/button';
 @import '00_common/spiner';
 @import '00_common/lock';
 @import '00_common/unlock';
 @import '00_common/content';
+@import '00_common/login_form';
+@import '00_common/inputs';
 
-@import '01_search/_search';
-@import '01_search/_searchCard';
-@import '01_search/_searchlist';
+@import 'mo_search/_search';
+@import 'mo_search/_searchCard';
+@import 'mo_search/_searchlist';
+@import 'mo_search/pagination';
 
-@import '02_main_nav/main_nav';
+@import 'co_main_nav/main_nav';
+@import 'co_auth_op/auth_op';
 
-@import '03_auth_op/auth_op';
+

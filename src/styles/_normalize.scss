@@ -5,3 +5,7 @@ button:focus {
 ul {
   padding-inline-start: 0px;
 }
+
+input:focus {
+  outline: none;
+}

@@ -1,5 +1,5 @@
 <template>
-  <div class="site-content c-home">
+  <div class="site-content">
 
     <x-buttonhamburger />
 
@@ -9,7 +9,7 @@
       </template>
     </x-main-nav>
 
-    <x-auth-op />
+    <x-auth-nav />
 
     <h1> Home - Welcome! </h1>
   </div>
