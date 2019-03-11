@@ -16,7 +16,8 @@
       {{ message }}
     </div>
 
-    <x-login v-if="!logged && status!='LOAGING'"
+    <x-login :welcomeMsg="pWelcomemsg"
+             v-if="!logged && status!='LOAGING'"
              v-on:login="login" />
     <div class="c-account__welcome-msg"
          v-else>
@@ -33,6 +34,12 @@
 <script>
 export default {
   name: 'x-account',
+  props: {
+    pWelcomemsg: {
+      type: String,
+      default: ''
+    }
+  },
   computed: {
     logged: function() {
       return this.$store.state.user.logged;

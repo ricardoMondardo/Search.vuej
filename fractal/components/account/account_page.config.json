@@ -1,0 +1,7 @@
+{
+  "context": {
+      "WelcomerMsg": "Welcome User!"
+  },
+  "notes": "These are some **notes** about the component",
+  "status": "wip"
+}
