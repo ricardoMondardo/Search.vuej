@@ -1,0 +1,14 @@
+.c-account {
+
+  &__spinner {
+    position: fixed;
+    top: 25%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  &__welcome-msg {
+    text-align: center;
+  }
+
+}

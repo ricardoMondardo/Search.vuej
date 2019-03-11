@@ -1,5 +1,5 @@
 <template>
-  <div class="site-content">
+  <div class="site-content c-account">
 
     <x-buttonhamburger />
 
@@ -16,9 +16,16 @@
       {{ message }}
     </div>
 
-    <x-login v-if="!logged"
-            v-on:login="login" />
-    <x-spiner v-if="this.status === 'LOAGING'"/>
+    <x-login v-if="!logged && status!='LOAGING'"
+             v-on:login="login" />
+    <div class="c-account__welcome-msg"
+         v-else>
+      Welcome!
+    </div>
+
+    <div class="c-account__spinner">
+      <x-spiner v-if="status=='LOAGING'"/>
+    </div>
 
   </div>
 </template>

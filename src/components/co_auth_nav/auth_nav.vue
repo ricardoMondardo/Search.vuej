@@ -31,6 +31,7 @@ export default {
   methods: {
     logOut: function() {
       this.$store.commit('logOutUser')
+      window.location.href = "/pageaccount";
     }
   }
 }

@@ -9,7 +9,8 @@
              type="password"
              :value="password"
              v-on:enter="login" />
-    <button v-on:click="login" >
+    <button  class="button button--large button--color"
+             v-on:click="login" >
       Log in
     </button>
   </div>

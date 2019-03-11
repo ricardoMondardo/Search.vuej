@@ -9,6 +9,21 @@
     background: $SecondColor;
   }
 
+  &--color {
+    background: $PrimaryColor;
+    border: none;
+    color: $whitetext;
+
+    &:hover {
+      background: $SecondColor;
+    }
+
+  }
+
+  &--large {
+    padding: 10px 25px;
+  }
+
 }
 
 .c-button-hamburger {

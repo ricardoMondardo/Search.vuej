@@ -2,6 +2,7 @@
   background: $SmokeBackGround;
   border-radius: 3px;
   margin: 15px 2%;
+  padding: 10px 0px;
 
   &__title {
     text-align: center;
@@ -9,6 +10,11 @@
   }
 
   & > input {
+    display: block;
+    margin: 10px auto;
+  }
+
+  & > button {
     display: block;
     margin: 10px auto;
   }
