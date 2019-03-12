@@ -3,13 +3,13 @@
 
     <x-buttonhamburger />
 
-    <x-main-nav>
+    <x-main-nav class="c-search__main-nav">
       <template slot="menu-items">
         <slot name="menu-items" />
       </template>
     </x-main-nav>
 
-     <x-auth-nav />
+    <x-auth-nav class="c-search__auth-nav"/>
 
     <div class="c-search__top-container">
       <div class="c-search__img-banner">

@@ -1,14 +1,36 @@
 .c-account {
 
+  &__main-nav {
+    position: fixed;
+    top: 5%;
+  }
+
+  &__auth_nav {
+    position: fixed;
+    top: 1.5%;
+    right: 2%;
+  }
+
+  &__tabs {
+    text-align: center;
+  }
+
   &__spinner {
     position: fixed;
-    top: 25%;
+    top: 30%;
     left: 50%;
     transform: translateX(-50%);
   }
 
   &__welcome-msg {
+    margin-top: 15px;
     text-align: center;
   }
+
+  // @media only screen and (min-width: 812px) {
+  //   &__main-nav {
+  //     top: 5%;
+  //   }
+  // }
 
 }

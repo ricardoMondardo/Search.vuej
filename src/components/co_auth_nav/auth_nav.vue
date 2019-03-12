@@ -1,15 +1,16 @@
 <template>
   <div class="c-auth-op">
-    <button v-if="logged"
+    <button class="button"
+            v-if="logged"
             v-on:click="logOut">
       Log out
     </button>
     <span v-else>
-      <span v-if="pHideLogin">
-        <a href="/pageaccount">
-          Log in
-        </a>
-      </span>
+      <a class="button"
+        v-if="pHideLogin"
+        href="/account">
+        Log in
+      </a>
     </span>
   </div>
 </template>
@@ -31,7 +32,7 @@ export default {
   methods: {
     logOut: function() {
       this.$store.commit('logOutUser')
-      window.location.href = "/pageaccount";
+      window.location.href = "/account";
     }
   }
 }

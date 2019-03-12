@@ -1,7 +1,8 @@
 @import url('https://fonts.googleapis.com/css?family=Poppins');
 
-@import '_normalize';
-@import '_variables';
+@import 'normalize';
+@import 'variables';
+@import 'mixis';
 
 @import '00_common/field';
 @import '00_common/button';
@@ -18,8 +19,14 @@
 @import 'mo_search/pagination';
 
 @import 'mo_account/account';
+@import 'mo_home/home';
 
 @import 'co_main_nav/main_nav';
-@import 'co_auth_op/auth_op';
+@import 'co_auth_nav/auth_nav';
+
+body {
+  //@include backgroud-gradiend-1($PL-Color-3, $PL-Color-4)
+  background: $Background-color-level-0;
+}
 
 

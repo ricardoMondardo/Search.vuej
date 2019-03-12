@@ -1,17 +1,16 @@
 <template>
-  <div class="site-content">
+  <div class="site-content c-home">
 
     <x-buttonhamburger />
 
-    <x-main-nav>
+    <x-main-nav class="c-home__main-nav">
       <template slot="menu-items">
         <slot name="menu-items" />
       </template>
     </x-main-nav>
 
-    <x-auth-nav />
+    <x-auth-nav class="c-home__auth-nav" />
 
-    <h1> Home - Welcome! </h1>
   </div>
 </template>
 

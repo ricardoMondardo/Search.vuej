@@ -3,29 +3,50 @@
 
     <x-buttonhamburger />
 
-    <x-main-nav>
+    <x-main-nav class="c-account__main-nav">
       <template slot="menu-items">
         <slot name="menu-items" />
       </template>
     </x-main-nav>
 
-    <x-auth-nav :pHideLogin="false"/>
+    <x-auth-nav class="c-account__auth_nav"
+                :pHideLogin="false"/>
 
-    <h1> Account </h1>
     <div v-if="message.length > 0">
       {{ message }}
     </div>
 
+    <div class="c-account__tabs"
+        v-if="!isLogged">
+      <button class="button--link"
+              v-bind:class="[ isLogInAct ? 'button--link__on' : ''  ]"
+              v-on:click="showLogIn">
+        {{ pLogInLabel }}
+      </button>
+
+      <button class="button--link"
+              v-bind:class="[ isSignUpAct ? 'button--link__on' : ''  ]"
+              v-on:click="showSignUp">
+        {{ pCreateAccountLabel }}
+      </button>
+    </div>
+
     <x-login :welcomeMsg="pWelcomemsg"
-             v-if="!logged && status!='LOAGING'"
+             v-if="!isLogged && !isLoading && isLogInAct"
              v-on:login="login" />
+
+    <x-signup :welcomeMsg="pWelcomemsg"
+             v-if="!isLogged && !isLoading && isSignUpAct"
+             v-on:signUp="signUp" />
+
     <div class="c-account__welcome-msg"
-         v-else>
+         v-if="isLogged && !isLoading">
       Welcome!
     </div>
 
     <div class="c-account__spinner">
-      <x-spiner v-if="status=='LOAGING'"/>
+      <x-spiner v-if="isLoading" />
+      <!-- <x-spiner /> -->
     </div>
 
   </div>
@@ -38,20 +59,44 @@ export default {
     pWelcomemsg: {
       type: String,
       default: ''
+    },
+    pCreateAccountLabel: {
+      type: String,
+      default: "Sig in"
+    },
+    pLogInLabel: {
+      type: String,
+      default: "Log in"
     }
   },
   computed: {
-    logged: function() {
+    isLogged: function() {
       return this.$store.state.user.logged;
+    },
+    isLoading: function() {
+      return status == 'LOAGING'
     }
   },
   data: () => {
     return {
-      status: "OPENED",
+      status: "LOGIN",
+      isLogInAct: true,
+      isSignUpAct: false,
       message: " "
     }
   },
   methods: {
+    showSignUp: function() {
+      this.isLogInAct = false
+      this.isSignUpAct = true
+    },
+    showLogIn: function() {
+      this.isLogInAct = true
+      this.isSignUpAct = false
+    },
+    signUp: function() {
+      console.log('Sig in')
+    },
     login: function(email, password) {
       const self = this
 

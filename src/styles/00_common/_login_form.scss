@@ -1,8 +1,10 @@
 .c-login-form {
-  background: $SmokeBackGround;
-  border-radius: 3px;
   margin: 15px 2%;
   padding: 10px 0px;
+
+  background: $Background-Color-Level-2;
+  border-radius: 3px;
+  box-shadow: $Shadow;
 
   &__title {
     text-align: center;

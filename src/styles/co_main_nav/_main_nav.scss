@@ -1,18 +1,23 @@
-.menu-container {
-  //border-bottom: 1px solid black;
-  padding: 10px 0px;
+.c-menu-nav {
+  padding: 0px;
+  //width: 35%;
 
-  .menu-container-pages {
+  & ul, li {
+    display: block;
+    padding: 5px 5px;
 
-    & ul, li {
-      display: inline;
-      padding: 0px 5px;
-    }
+    background: $PrimaryColor;
+    border-radius: 3px;
+  }
 
-    & ul, li, a {
-      text-decoration: none;
-    }
+  & ul, li, a {
+    color: $White;
+    text-decoration: none;
+  }
 
+  & ul, li, a:hover {
+    color: $SecondColor;
+    text-decoration: none;
   }
 
 }

@@ -1,9 +1,7 @@
 <template>
-  <div class="menu-container"
+  <div class="c-menu-nav"
         v-if="showTopMenu">
-      <div class="menu-container-pages">
-        <slot name="menu-items" />
-      </div>
+    <slot name="menu-items" />
   </div>
 </template>
 

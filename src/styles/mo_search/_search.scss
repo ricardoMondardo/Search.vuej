@@ -1,5 +1,23 @@
 .c-search {
 
+  &__main-nav {
+    position: fixed;
+    top: 5%;
+    z-index: 1;
+  }
+
+  &__auth-nav {
+    position: fixed;
+    top: 1.5%;
+    right: 3%;
+  }
+
+  // @media only screen and (min-width: 812px) {
+  //   &__main-nav {
+  //     top: 10%;
+  //   }
+  // }
+
   &__top-container {
     display: inline-block;
     overflow: hidden;
