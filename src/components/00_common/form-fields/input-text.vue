@@ -1,21 +1,23 @@
 <template>
   <input class="input"
+        type="text"
         :placeholder="pPlaceHolder"
-        :pValue="pValue"
-        v-on:keyup.enter="$emit('enter')">
+        @input="updateSelf($event.target.value)" >
 </template>
 
 <script>
 export default {
-  name: 'x-input',
+  name: 'x-input-text',
   props: {
     pPlaceHolder: {
       type: String,
       default: 'Type some text'
-    },
-    pValue: {
-      type: String,
-      default: ''
+    }
+  },
+  methods: {
+    updateSelf(value) {
+      //Validation
+      this.$emit('input', value);
     }
   }
 }

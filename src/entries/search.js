@@ -1,7 +1,9 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import components from '../components/mo_search';
+import Components from '../components/mo_search';
+import CommonComponents from '../components/00_common'
+
 import { storeObj } from '../stores/managerStore'
 import { autoLogoutUser } from '../util/auto-logout-user'
 
@@ -9,8 +11,14 @@ import { autoLogoutUser } from '../util/auto-logout-user'
 // Stylesheet
 import '../styles/main.scss'
 
-// Global Components
-components.forEach((component) => {
+// Global Components Common
+CommonComponents.forEach((component) => {
+  Vue.component(component.name, component)
+})
+
+
+// Global Components Search Root
+Components.forEach((component) => {
   Vue.component(component.name, component)
 })
 

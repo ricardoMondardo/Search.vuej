@@ -3,12 +3,13 @@
     <div class="c-login-form__title">
       {{ welcomeMsg }}
     </div>
-    <x-input placeholder="Email"
-             :value="email"  />
-    <x-input placeholder="password"
-             type="password"
-             :value="password"
+    <x-input-email placeholder="Email"
+             v-model="email"  />
+
+    <x-input-password placeholder="password"
+             v-model="password"
              v-on:enter="login" />
+
     <button  class="button button--large button--color"
              v-on:click="login" >
       Log in
@@ -27,12 +28,13 @@ export default {
   },
   data: () => {
     return {
-      email: "ricardo9300@gmail.com",
-      password: "abc123"
+      email: "",
+      password: ""
     }
   },
   methods: {
     login: function() {
+      console.log(this.email)
       this.$emit('login', this.email, this.password)
     }
   }

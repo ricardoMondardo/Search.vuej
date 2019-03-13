@@ -3,15 +3,17 @@
     <div class="c-login-form__title">
       {{ welcomeMsg }}
     </div>
-    <x-input placeholder="Email"
-             :value="email"  />
-    <x-input placeholder="password"
-             type="password"
-             :value="password" />
-    <x-input placeholder="repeat password"
-             type="password"
-             :value="repassaword"
+
+    <x-input-email placeholder="Email"
+             v-model="email"  />
+
+    <x-input-password placeholder="password"
+             v-model="password" />
+
+    <x-input-password placeholder="repeat password"
+             v-model="repassaword"
              v-on:enter="signUp" />
+
     <button  class="button button--large button--color"
              v-on:click="signUp" >
       Sign up
@@ -37,7 +39,7 @@ export default {
   },
   methods: {
     signUp: function() {
-      this.$emit('signUp', this.email, this.password)
+      this.$emit('signUp', this.email, this.password, this.repassaword)
     }
   }
 }

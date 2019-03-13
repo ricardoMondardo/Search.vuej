@@ -32,7 +32,9 @@ export default {
   methods: {
     logOut: function() {
       this.$store.commit('logOutUser')
-      window.location.href = "/account";
+      const inInFractal = window.location.port == "3000"
+      window.location.href = inInFractal ? "/components/preview/account"
+                              : "/account";
     }
   }
 }

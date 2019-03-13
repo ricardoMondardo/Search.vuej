@@ -1,32 +1,32 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import components from '../components/mo_home';
+import Components from '../components/mo_home';
+import CommonComponents from '../components/00_common'
+
 import { storeObj } from '../stores/managerStore'
 import { autoLogoutUser } from '../util/auto-logout-user'
 
-//
 // Stylesheet
-//
 import '../styles/main.scss'
 
-
-//
-// Global Components
-//
-components.forEach((component) => {
+// Global Components Common
+CommonComponents.forEach((component) => {
   Vue.component(component.name, component)
 })
 
-//
+// Global Components Home Root
+Components.forEach((component) => {
+  Vue.component(component.name, component)
+})
+
 // Plugins
-//
 Vue.use(Vuex)
+
+//Store
 const store = new Vuex.Store(storeObj)
 
-//
 // Start
-//
 const root = new Vue({
   el: '#vue-container',
   store,

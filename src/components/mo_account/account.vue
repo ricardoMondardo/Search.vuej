@@ -12,10 +12,6 @@
     <x-auth-nav class="c-account__auth_nav"
                 :pHideLogin="false"/>
 
-    <div v-if="message.length > 0">
-      {{ message }}
-    </div>
-
     <div class="c-account__tabs"
         v-if="!isLogged">
       <button class="button--link"
@@ -44,15 +40,21 @@
       Welcome!
     </div>
 
-    <div class="c-account__spinner">
-      <x-spiner v-if="isLoading" />
-      <!-- <x-spiner /> -->
+    <div class="c-account__forms-msg"
+          v-if="message.length > 0">
+      {{ message }}
     </div>
 
+    <div class="c-account__spinner">
+      <x-spiner v-if="isLoading" />
+    </div>
   </div>
 </template>
 
 <script>
+
+const fetchPost = require('../../util/fetchPost')
+
 export default {
   name: 'x-account',
   props: {
@@ -74,7 +76,10 @@ export default {
       return this.$store.state.user.logged;
     },
     isLoading: function() {
-      return status == 'LOAGING'
+      return this.status == this.$constants.LOADING
+    },
+    isError: function() {
+      return this.status == this.$constants.ERROR
     }
   },
   data: () => {
@@ -94,14 +99,11 @@ export default {
       this.isLogInAct = true
       this.isSignUpAct = false
     },
-    signUp: function() {
-      console.log('Sig in')
-    },
-    login: function(email, password) {
+    signUp: function(email, password, repassword) {
       const self = this
 
       if (email.length <= 0) {
-        this.message = "Name cannot be empty"
+        this.message = "Email cannot be empty"
         return false
       }
 
@@ -110,15 +112,19 @@ export default {
         return false
       }
 
-      const fetchPost = require('../../util/fetchPost')
+      if (repassword != password) {
+        this.message = "Repeat Password incorrect"
+        return false
+      }
 
-      this.status = "LOAGING"
-      fetchPost.postData("api/Auth/Login", {
+      this.status = this.$constants.LOADING
+      fetchPost.postData("api/Auth/Register", {
+            username: email,
             email: email,
             password: password
         })
       .then((res) => {
-        this.status = "LOGGED"
+        this.status = this.$constants.LOGGED
         self.message = ""
         self.$store.commit('logInUser', {
           id: res.id,
@@ -127,6 +133,45 @@ export default {
         })
       })
       .catch((error) => {
+        this.status = this.$constants.ERROR
+        if (error.message == "400") {
+          self.message = "Email or password incorect"
+        } else {
+          self.message = "Sorry, something goes wrong, try again later"
+        }
+      });
+
+
+    },
+    login: function(email, password) {
+      const self = this
+
+      if (email.length <= 0) {
+        this.message = "Email cannot be empty"
+        return false
+      }
+
+      if (password.length <= 0) {
+        this.message = "Password cannot be empty"
+        return false
+      }
+
+      this.status = this.$constants.LOADING
+      fetchPost.postData("api/Auth/Login", {
+            email: email,
+            password: password
+        })
+      .then((res) => {
+        this.status = this.$constants.LOGGED
+        self.message = ""
+        self.$store.commit('logInUser', {
+          id: res.id,
+          token: res.token,
+          tokenExpirationTime: res.tokenExpirationTime
+        })
+      })
+      .catch((error) => {
+        this.status = this.$constants.ERROR
         if (error.message == "401") {
           self.message = "Email or password incorect"
         } else {
