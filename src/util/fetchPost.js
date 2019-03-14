@@ -31,7 +31,12 @@ const postData = function (url = ``, data = {}) {
           })
         }
       })
-
+      .catch((error) => {
+        reject({
+          code: '999',
+          data: error.message
+        })
+      })
     }
   )
 

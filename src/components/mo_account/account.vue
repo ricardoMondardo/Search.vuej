@@ -66,7 +66,7 @@ export default {
     },
     pCreateAccountLabel: {
       type: String,
-      default: "Sig in"
+      default: "Sign in"
     },
     pLogInLabel: {
       type: String,
@@ -139,26 +139,7 @@ export default {
       })
       .catch((error) => {
         this.status = this.$constants.ERROR
-        error.data
-          .then((data) => {
-            if( data.errors != undefined)
-            {
-              if(data.errors.email != undefined &&
-                  data.errors.email.length > 0) {
-                this.messages = this.messages.concat(data.errors.email)
-              }
-
-              if(data.errors.email != undefined &&
-                  data.errors.email.length > 0) {
-                this.messages = this.messages.concat(data.errors.password)
-              }
-            } else {
-              this.messages.push(data.title)
-            }
-          })
-          .catch((error) => {
-            this.messages.push('Sorry, something wrong happen, try again later')
-          })
+        this.handleErrorPost(error)
       });
     },
     login: function(email, password) {
@@ -190,31 +171,37 @@ export default {
       })
       .catch((error) => {
         this.status = this.$constants.ERROR
-        error.data
-          .then((data) => {
-            if( data.errors != undefined)
-            {
-              if(data.errors.email != undefined &&
-                  data.errors.email.length > 0) {
-                this.messages = this.messages.concat(data.errors.email)
-              }
-
-              if(data.errors.email != undefined &&
-                  data.errors.email.length > 0) {
-                this.messages = this.messages.concat(data.errors.password)
-              }
-            } else {
-              if (error.code == '401') {
-                this.messages.push("Email or Password invalid")
-              } else {
-                this.messages.push(data.title)
-              }
-            }
-          })
-          .catch((error) => {
-            this.messages.push('Sorry, something wrong happen, try again later')
-          })
+        this.handleErrorPost(error)
       });
+    },
+    handleErrorPost: function(error) {
+
+      if(error.code != undefined) {
+        if(error.code == '400') {
+
+          error.data.then((data) => {
+
+            if(data.title != undefined) {
+              this.messages.push(data.title)
+            }
+
+            if(data.errors.email != undefined && data.errors.email.length > 0) {
+              this.messages = this.messages.concat(data.errors.email)
+            }
+
+            if(data.errors.email != undefined && data.errors.email.length > 0) {
+              this.messages = this.messages.concat(data.errors.password)
+            }
+          }).catch(() => {
+            this.messages.push("Please, try again later")
+          })
+
+        } else if(error.code == '401') {
+           this.messages.push("Email or Password invalid")
+        } else {
+          this.messages.push("Please, try again later")
+        }
+      }
     }
   }
 }
