@@ -40,10 +40,12 @@
       Welcome!
     </div>
 
-    <div class="c-account__forms-msg"
-          v-if="message.length > 0">
-      {{ message }}
-    </div>
+    <ul class="c-account__forms-msg"
+          v-if="messages.length > 0">
+      <li v-for="item in messages" :key="item">
+        {{ item }}
+      </li>
+    </ul>
 
     <div class="c-account__spinner">
       <x-spiner v-if="isLoading" />
@@ -87,7 +89,9 @@ export default {
       status: "LOGIN",
       isLogInAct: true,
       isSignUpAct: false,
-      message: " "
+      email: "",
+      password: "",
+      messages: []
     }
   },
   methods: {
@@ -101,19 +105,21 @@ export default {
     },
     signUp: function(email, password, repassword) {
       const self = this
+      this.messages = []
+      this.email = email
 
       if (email.length <= 0) {
-        this.message = "Email cannot be empty"
+        this.messages.push("Email cannot be empty")
         return false
       }
 
       if (password.length <= 0) {
-        this.message = "Password cannot be empty"
+        this.messages.push("Password cannot be empty")
         return false
       }
 
       if (repassword != password) {
-        this.message = "Repeat Password incorrect"
+        this.messages.push("Repeat Password incorrect")
         return false
       }
 
@@ -125,7 +131,6 @@ export default {
         })
       .then((res) => {
         this.status = this.$constants.LOGGED
-        self.message = ""
         self.$store.commit('logInUser', {
           id: res.id,
           token: res.token,
@@ -134,25 +139,39 @@ export default {
       })
       .catch((error) => {
         this.status = this.$constants.ERROR
-        if (error.message == "400") {
-          self.message = "Email or password incorect"
-        } else {
-          self.message = "Sorry, something goes wrong, try again later"
-        }
+        error.data
+          .then((data) => {
+            if( data.errors != undefined)
+            {
+              if(data.errors.email != undefined &&
+                  data.errors.email.length > 0) {
+                this.messages = this.messages.concat(data.errors.email)
+              }
+
+              if(data.errors.email != undefined &&
+                  data.errors.email.length > 0) {
+                this.messages = this.messages.concat(data.errors.password)
+              }
+            } else {
+              this.messages.push(data.title)
+            }
+          })
+          .catch((error) => {
+            this.messages.push('Sorry, something wrong happen, try again later')
+          })
       });
-
-
     },
     login: function(email, password) {
       const self = this
+      this.messages = []
 
       if (email.length <= 0) {
-        this.message = "Email cannot be empty"
+        this.messages.push("Email cannot be empty")
         return false
       }
 
       if (password.length <= 0) {
-        this.message = "Password cannot be empty"
+        this.messages.push("Password cannot be empty")
         return false
       }
 
@@ -163,7 +182,6 @@ export default {
         })
       .then((res) => {
         this.status = this.$constants.LOGGED
-        self.message = ""
         self.$store.commit('logInUser', {
           id: res.id,
           token: res.token,
@@ -172,13 +190,31 @@ export default {
       })
       .catch((error) => {
         this.status = this.$constants.ERROR
-        if (error.message == "401") {
-          self.message = "Email or password incorect"
-        } else {
-          self.message = "Sorry, something goes wrong, try again later"
-        }
-      });
+        error.data
+          .then((data) => {
+            if( data.errors != undefined)
+            {
+              if(data.errors.email != undefined &&
+                  data.errors.email.length > 0) {
+                this.messages = this.messages.concat(data.errors.email)
+              }
 
+              if(data.errors.email != undefined &&
+                  data.errors.email.length > 0) {
+                this.messages = this.messages.concat(data.errors.password)
+              }
+            } else {
+              if (error.code == '401') {
+                this.messages.push("Email or Password invalid")
+              } else {
+                this.messages.push(data.title)
+              }
+            }
+          })
+          .catch((error) => {
+            this.messages.push('Sorry, something wrong happen, try again later')
+          })
+      });
     }
   }
 }

@@ -1,12 +1,5 @@
 'use strict';
 
-const handleErrors = function (response) {
-  if(!response.ok) {
-    throw Error(response.status)
-  }
-  return response
-}
-
 const postData = function (url = ``, data = {}) {
 
   const inInFractal = window.location.port == "3000"
@@ -27,12 +20,16 @@ const postData = function (url = ``, data = {}) {
         referrer: "no-referrer",
         body: JSON.stringify(data),
       })
-      .then(handleErrors)
       .then((res) => {
-        return resolve(res.json())
-      })
-      .catch((error) => {
-        reject(error)
+        if (res.ok)
+        {
+          return resolve(res.json())
+        } else {
+          return reject({
+            code: res.status,
+            data: res.json()
+          })
+        }
       })
 
     }

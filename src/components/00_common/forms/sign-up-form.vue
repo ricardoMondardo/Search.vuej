@@ -32,9 +32,9 @@ export default {
   },
   data: () => {
     return {
-      email: "",
-      password: "",
-      repassaword: ""
+      email: "ricardo9300@gmail.com",
+      password: "abc123",
+      repassaword: "abc123"
     }
   },
   methods: {
