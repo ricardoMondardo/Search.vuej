@@ -268,6 +268,8 @@ export default {
 
         } else if(error.code == '401') {
            this.messages.push("Email or Password invalid")
+        } else if(error.code == '404') {
+          this.messages.push("Email not found")
         } else {
           this.messages.push("Please, try again later")
         }
