@@ -1,6 +1,7 @@
 {
   "context": {
-      "WelcomerMsg": "Welcome User!"
+      "WelcomerMsg": "Welcome User!",
+      "ComeFromActiveLink": false
   },
   "notes": "These are some **notes** about the component",
   "status": "wip"

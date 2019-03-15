@@ -1,5 +1,8 @@
 <div id="vue-container">
-  <x-account p-welcomemsg="{{ WelcomerMsg }}">
+  <x-account p-welcomemsg="{{ WelcomerMsg }}"
+             p-comefromactivelink="{{true}}"
+             p-useractivecode="AA"
+             p-email="ricardo9300@gmail.com">
     {{ render "@menu" }}
   </x-account>
 </div>

@@ -29,7 +29,8 @@
 
     <x-login :welcomeMsg="pWelcomemsg"
              v-if="!isLogged && !isLoading && isLogInAct"
-             v-on:login="login" />
+             v-on:login="login"
+             v-on:sendActiveLink="sendActiveLink" />
 
     <x-signup :welcomeMsg="pWelcomemsg"
              v-if="!isLogged && !isLoading && isSignUpAct"
@@ -46,6 +47,8 @@
         {{ item }}
       </li>
     </ul>
+
+
 
     <div class="c-account__spinner">
       <x-spiner v-if="isLoading" />
@@ -71,6 +74,28 @@ export default {
     pLogInLabel: {
       type: String,
       default: "Log in"
+    },
+    pComefromactivelink: {
+      type: Boolean,
+      default: false
+    },
+    pUseractivecode: {
+      type: String,
+      default: ""
+    },
+    pEmail: {
+      type: String,
+      default: ""
+    }
+  },
+  mounted() {
+    if(this.pComefromactivelink) {
+      window.history.pushState("", "", '/account');
+
+      if(this.pUseractivecode.length > 0) {
+        console.log('Log in with active code for:' + this.pEmail)
+        console.log("api/auth/loginWithActiveCode")
+      }
     }
   },
   computed: {
@@ -102,6 +127,21 @@ export default {
     showLogIn: function() {
       this.isLogInAct = true
       this.isSignUpAct = false
+    },
+    logInUserWithCode: function() {
+      console.log('Log in with active token')
+    },
+    sendActiveLink: function(email) {
+      const self = this
+      this.messages = []
+
+      if (email.length <= 0) {
+        this.messages.push("Email cannot be empty")
+        return false
+      }
+
+      this.messages[0] = "Please, check your email"
+
     },
     signUp: function(email, password, repassword) {
       const self = this

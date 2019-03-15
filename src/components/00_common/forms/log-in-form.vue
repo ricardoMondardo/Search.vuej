@@ -14,6 +14,11 @@
              v-on:click="login" >
       Log in
     </button>
+
+    <button  class="button button--large button--color"
+             v-on:click="sendActiveLink" >
+      Send Active Link
+    </button>
   </div>
 </template>
 
@@ -34,8 +39,10 @@ export default {
   },
   methods: {
     login: function() {
-      console.log(this.email)
       this.$emit('login', this.email, this.password)
+    },
+    sendActiveLink: function() {
+      this.$emit('sendActiveLink', this.email)
     }
   }
 }
