@@ -93,8 +93,7 @@ export default {
       window.history.pushState("", "", '/account');
 
       if(this.pUseractivecode.length > 0) {
-        console.log('Log in with active code for:' + this.pEmail)
-        console.log("api/auth/loginWithActiveCode")
+        this.logInUserWithCode()
       }
     }
   },
@@ -129,7 +128,29 @@ export default {
       this.isSignUpAct = false
     },
     logInUserWithCode: function() {
-      console.log('Log in with active token')
+      const self = this
+      this.messages = []
+
+      console.log('Log in with active code for:' + this.pEmail)
+      console.log("api/auth/loginWithActiveCode")
+
+      this.status = this.$constants.LOADING
+      fetchPost.postData("api/Auth/loginWithActiveCode", {
+            email: this.pEmail,
+            password: this.pUseractivecode
+        })
+      .then((res) => {
+        this.status = this.$constants.LOGGED
+        self.$store.commit('logInUser', {
+          id: res.id,
+          token: res.token,
+          tokenExpirationTime: res.tokenExpirationTime
+        })
+      })
+      .catch((error) => {
+        this.status = this.$constants.ERROR
+        this.handleErrorPost(error)
+      });
     },
     sendActiveLink: function(email) {
       const self = this
@@ -140,7 +161,16 @@ export default {
         return false
       }
 
-      this.messages[0] = "Please, check your email"
+      this.status = this.$constants.LOADING
+      fetchPost.postData(`api/Auth/sendlinkactive?email=${email}`)
+      .then((res) => {
+        this.status = this.$constants.LOGGED
+        this.messages.push("Please, check your email")
+      })
+      .catch((error) => {
+        this.status = this.$constants.ERROR
+        this.handleErrorPost(error)
+      });
 
     },
     signUp: function(email, password, repassword) {
