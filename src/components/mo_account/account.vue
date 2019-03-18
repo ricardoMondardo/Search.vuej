@@ -85,7 +85,7 @@ const fetchPost = require('../../util/fetchPost')
 export default {
   name: 'x-account',
   props: {
-    pWelcomemsg: {
+    pWelcomeMsg: {
       type: String,
       default: ''
     },
@@ -107,18 +107,19 @@ export default {
     },
     pEmail: {
       type: String,
-      default: ""
+      default: " "
     }
   },
   mounted() {
-    this.showLogIn()
+    console.log('mouted')
+    if(this.pComeFromActiveLink) {
+      //window.history.pushState("", "", '/account');
 
-    if(this.pComefromactivelink) {
-      window.history.pushState("", "", '/account');
-
-      if(this.pUseractivecode.length > 0) {
+      if(this.pUserActiveCode.length > 0) {
         this.logInUserWithCode()
       }
+    } else {
+      this.showLogIn()
     }
   },
   data: () => {
@@ -196,7 +197,7 @@ export default {
       this.status = this.$constants.AccountPageStatusControl.LOADING
       fetchPost.postData("api/Auth/loginWithActiveCode", {
             email: this.pEmail,
-            password: this.pUseractivecode
+            password: this.pUserActiveCode
         })
       .then((res) => {
         this.status = this.$constants.AccountPageStatusControl.LOGGED
