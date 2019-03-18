@@ -9,50 +9,72 @@
       </template>
     </x-main-nav>
 
-    <x-auth-nav class="c-account__auth_nav"
-                :pHideLogin="false"/>
+    <x-auth-nav
+      class="c-account__auth_nav"
+      :pHideLogin="false"/>
 
-    <div class="c-account__tabs"
-        v-if="!isLogged">
-      <button class="button--link"
-              v-bind:class="[ isLogInAct ? 'button--link__on' : ''  ]"
-              v-on:click="showLogIn">
+    <div
+      class="c-account__tabs"
+      v-if="!isStatusLogged">
+      <button
+        class="button--link"
+        v-bind:class="[ isModeLogin ? 'button--link__on' : ''  ]"
+        v-on:click="showLogIn">
         {{ pLogInLabel }}
       </button>
 
-      <button class="button--link"
-              v-bind:class="[ isSignUpAct ? 'button--link__on' : ''  ]"
-              v-on:click="showSignUp">
+      <button
+        class="button--link"
+        v-bind:class="[ isModeSign ? 'button--link__on' : ''  ]"
+        v-on:click="showSignUp">
         {{ pCreateAccountLabel }}
       </button>
     </div>
 
-    <x-login :welcomeMsg="pWelcomemsg"
-             v-if="!isLogged && !isLoading && isLogInAct"
-             v-on:login="login"
-             v-on:sendActiveLink="sendActiveLink" />
+    <div v-if="!isStatusLoading">
+      <x-login
+        v-if="!isStatusLogged && isModeLogin"
+        v-on:setMessages="setMessages"
+        v-on:login="login" />
 
-    <x-signup :welcomeMsg="pWelcomemsg"
-             v-if="!isLogged && !isLoading && isSignUpAct"
-             v-on:signUp="signUp" />
+      <x-signup
+        v-if="!isStatusLogged && isModeSign"
+        v-on:setMessages="setMessages"
+        v-on:signUp="signUp" />
 
-    <div class="c-account__welcome-msg"
-         v-if="isLogged && !isLoading">
+      <x-send-active-link-form
+        v-if="isModeSendLink"
+        v-on:setMessages="setMessages"
+        v-on:sendActiveLink="sendActiveLink"/>
+    </div>
+    <div
+      class="c-account__spinner"
+      v-else>
+      <x-spiner />
+    </div>
+
+    <div
+      class="c-account__welcome-msg"
+      v-if="shouldShowWelcomeMsg">
       Welcome!
     </div>
 
-    <ul class="c-account__forms-msg"
-          v-if="messages.length > 0">
-      <li v-for="item in messages" :key="item">
+    <button
+      class="button"
+      v-if="!isModeSendLink"
+      v-on:click="showSendLink">
+      Send link active account
+    </button>
+
+    <ul
+      class="c-account__forms-msg"
+      v-if="messages.length > 0">
+      <li
+        v-for="item in messages"
+        :key="item">
         {{ item }}
       </li>
     </ul>
-
-
-
-    <div class="c-account__spinner">
-      <x-spiner v-if="isLoading" />
-    </div>
   </div>
 </template>
 
@@ -75,11 +97,11 @@ export default {
       type: String,
       default: "Log in"
     },
-    pComefromactivelink: {
+    pComeFromActiveLink: {
       type: Boolean,
       default: false
     },
-    pUseractivecode: {
+    pUserActiveCode: {
       type: String,
       default: ""
     },
@@ -89,6 +111,8 @@ export default {
     }
   },
   mounted() {
+    this.showLogIn()
+
     if(this.pComefromactivelink) {
       window.history.pushState("", "", '/account');
 
@@ -97,50 +121,64 @@ export default {
       }
     }
   },
-  computed: {
-    isLogged: function() {
-      return this.$store.state.user.logged;
-    },
-    isLoading: function() {
-      return this.status == this.$constants.LOADING
-    },
-    isError: function() {
-      return this.status == this.$constants.ERROR
-    }
-  },
   data: () => {
     return {
-      status: "LOGIN",
-      isLogInAct: true,
-      isSignUpAct: false,
+      status: "",
+      mode: '',
       email: "",
       password: "",
       messages: []
     }
   },
+  computed: {
+    isModeLogin: function() {
+      return this.mode == this.$constants.AccountPageMode.LOGIN
+    },
+    isModeSign: function() {
+      return this.mode == this.$constants.AccountPageMode.SIGNIN
+    },
+    isModeSendLink: function() {
+      return this.mode == this.$constants.AccountPageMode.SENDLINK
+    },
+    isStatusLogged: function() {
+      return this.status == this.$constants.AccountPageStatusControl.LOGGED
+    },
+    isStatusLoading: function() {
+      return this.status == this.$constants.AccountPageStatusControl.LOADING
+    },
+    isStatusError: function() {
+      return this.status == this.$constants.AccountPageStatusControl.ERROR
+    },
+    shouldShowWelcomeMsg: function() {
+      return this.isStatusLogged && !this.isStatusLoading
+    }
+  },
   methods: {
     showSignUp: function() {
-      this.isLogInAct = false
-      this.isSignUpAct = true
+      this.changeMode(this.$constants.AccountPageMode.SIGNIN)
     },
     showLogIn: function() {
-      this.isLogInAct = true
-      this.isSignUpAct = false
+      this.changeMode(this.$constants.AccountPageMode.LOGIN)
     },
-    logInUserWithCode: function() {
+    showSendLink: function() {
+      this.changeMode(this.$constants.AccountPageMode.SENDLINK)
+    },
+    changeMode: function(mode) {
+      this.status = this.$constants.AccountPageStatusControl.INITIAL
+      this.messages = []
+      this.mode = mode
+    },
+    login: function(email, password) {
       const self = this
       this.messages = []
 
-      console.log('Log in with active code for:' + this.pEmail)
-      console.log("api/auth/loginWithActiveCode")
-
-      this.status = this.$constants.LOADING
-      fetchPost.postData("api/Auth/loginWithActiveCode", {
-            email: this.pEmail,
-            password: this.pUseractivecode
+      this.status = this.$constants.AccountPageStatusControl.LOADING
+      fetchPost.postData("api/Auth/Login", {
+            email: email,
+            password: password
         })
       .then((res) => {
-        this.status = this.$constants.LOGGED
+        this.status = this.$constants.AccountPageStatusControl.LOGGED
         self.$store.commit('logInUser', {
           id: res.id,
           token: res.token,
@@ -148,7 +186,50 @@ export default {
         })
       })
       .catch((error) => {
-        this.status = this.$constants.ERROR
+        this.handleErrorPost(error)
+      });
+    },
+    logInUserWithCode: function() {
+      const self = this
+      this.messages = []
+
+      this.status = this.$constants.AccountPageStatusControl.LOADING
+      fetchPost.postData("api/Auth/loginWithActiveCode", {
+            email: this.pEmail,
+            password: this.pUseractivecode
+        })
+      .then((res) => {
+        this.status = this.$constants.AccountPageStatusControl.LOGGED
+        self.$store.commit('logInUser', {
+          id: res.id,
+          token: res.token,
+          tokenExpirationTime: res.tokenExpirationTime
+        })
+      })
+      .catch((error) => {
+        this.handleErrorPost(error)
+      });
+    },
+    signUp: function(email, password) {
+      const self = this
+      this.messages = []
+      this.email = email
+
+      this.status = this.$constants.AccountPageStatusControl.LOADING
+      fetchPost.postData("api/Auth/Register", {
+            username: email,
+            email: email,
+            password: password
+        })
+      .then((res) => {
+        this.status = this.$constants.AccountPageStatusControl.LOGGED
+        self.$store.commit('logInUser', {
+          id: res.id,
+          token: res.token,
+          tokenExpirationTime: res.tokenExpirationTime
+        })
+      })
+      .catch((error) => {
         this.handleErrorPost(error)
       });
     },
@@ -156,124 +237,48 @@ export default {
       const self = this
       this.messages = []
 
-      if (email.length <= 0) {
-        this.messages.push("Email cannot be empty")
-        return false
-      }
-
-      this.status = this.$constants.LOADING
+      this.status = this.$constants.AccountPageStatusControl.LOADING
       fetchPost.postData(`api/Auth/sendlinkactive?email=${email}`)
       .then((res) => {
-        this.status = this.$constants.LOGGED
+        this.showLogIn()
         this.messages.push("Please, check your email")
       })
       .catch((error) => {
-        this.status = this.$constants.ERROR
         this.handleErrorPost(error)
       });
 
-    },
-    signUp: function(email, password, repassword) {
-      const self = this
-      this.messages = []
-      this.email = email
-
-      if (email.length <= 0) {
-        this.messages.push("Email cannot be empty")
-        return false
-      }
-
-      if (password.length <= 0) {
-        this.messages.push("Password cannot be empty")
-        return false
-      }
-
-      if (repassword != password) {
-        this.messages.push("Repeat Password incorrect")
-        return false
-      }
-
-      this.status = this.$constants.LOADING
-      fetchPost.postData("api/Auth/Register", {
-            username: email,
-            email: email,
-            password: password
-        })
-      .then((res) => {
-        this.status = this.$constants.LOGGED
-        self.$store.commit('logInUser', {
-          id: res.id,
-          token: res.token,
-          tokenExpirationTime: res.tokenExpirationTime
-        })
-      })
-      .catch((error) => {
-        this.status = this.$constants.ERROR
-        this.handleErrorPost(error)
-      });
-    },
-    login: function(email, password) {
-      const self = this
-      this.messages = []
-
-      if (email.length <= 0) {
-        this.messages.push("Email cannot be empty")
-        return false
-      }
-
-      if (password.length <= 0) {
-        this.messages.push("Password cannot be empty")
-        return false
-      }
-
-      this.status = this.$constants.LOADING
-      fetchPost.postData("api/Auth/Login", {
-            email: email,
-            password: password
-        })
-      .then((res) => {
-        this.status = this.$constants.LOGGED
-        self.$store.commit('logInUser', {
-          id: res.id,
-          token: res.token,
-          tokenExpirationTime: res.tokenExpirationTime
-        })
-      })
-      .catch((error) => {
-        this.status = this.$constants.ERROR
-        this.handleErrorPost(error)
-      });
     },
     handleErrorPost: function(error) {
+      this.status = this.$constants.AccountPageStatusControl.ERROR
+      this.messages = []
 
       if(error.code != undefined) {
-        if(error.code == '400') {
-
+        if(error.code == '404') {
+          this.messages.push("Email not found")
+        } else if(error.code == '401') {
+           this.messages.push("Email or Password invalid")
+        } else if(error.code == '400') {
           error.data.then((data) => {
+            if(data.title != undefined) this.messages.push(data.title)
 
-            if(data.title != undefined) {
-              this.messages.push(data.title)
-            }
+            if(data.errors.email != undefined
+                && data.errors.email.length > 0) this.messages = this.messages.concat(data.errors.email)
 
-            if(data.errors.email != undefined && data.errors.email.length > 0) {
-              this.messages = this.messages.concat(data.errors.email)
-            }
-
-            if(data.errors.email != undefined && data.errors.email.length > 0) {
-              this.messages = this.messages.concat(data.errors.password)
-            }
+            if(data.errors.email != undefined
+              && data.errors.email.length > 0) this.messages = this.messages.concat(data.errors.password)
           }).catch(() => {
             this.messages.push("Please, try again later")
           })
-
-        } else if(error.code == '401') {
-           this.messages.push("Email or Password invalid")
-        } else if(error.code == '404') {
-          this.messages.push("Email not found")
         } else {
           this.messages.push("Please, try again later")
         }
+      } else {
+        this.messages.push("Sorry, something wrong happen!")
       }
+    },
+    setMessages: function(messages) {
+      console.log('messages')
+      this.messages = messages
     }
   }
 }

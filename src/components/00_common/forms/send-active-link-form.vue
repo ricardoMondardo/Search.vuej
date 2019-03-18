@@ -3,41 +3,39 @@
     <x-input-email pPlaceHolder="Email"
                   v-model="email"  />
 
-    <x-input-password pPlaceHolder="password"
-             v-model="password"
-             v-on:enter="login" />
-
     <button  class="button button--large button--color"
-             v-on:click="login" >
-      Log in
+             v-on:click="sendActiveLink" >
+      Send link
     </button>
   </div>
 </template>
 
+
 <script>
 export default {
-  name: 'x-login',
+  name: 'x-send-active-link-form',
+  props: {
+    pPlaceHolder: {
+      type: String,
+      default: "Type something"
+    }
+  },
   data: () => {
     return {
-      email: "",
-      password: ""
+      email: ""
     }
   },
   methods: {
-    login: function() {
+    sendActiveLink: function() {
 
       if (this.email.length <= 0) {
         this.$emit('setMessages', ["Email cannot be null"])
         return false
       }
 
-      if (this.password.length <= 0) {
-        this.$emit('setMessages', ["Password cannot be null"])
-        return false
-      }
-
-      this.$emit('login', this.email, this.password)
+      this.$emit('sendActiveLink', this.email)
     }
   }
 }
 </script>
+

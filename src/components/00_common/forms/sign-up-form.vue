@@ -1,16 +1,13 @@
 <template>
   <div class="c-login-form">
-    <div class="c-login-form__title">
-      {{ welcomeMsg }}
-    </div>
 
-    <x-input-email placeholder="Email"
+    <x-input-email pPlaceHolder="Email"
              v-model="email"  />
 
-    <x-input-password placeholder="password"
+    <x-input-password pPlaceHolder="Password"
              v-model="password" />
 
-    <x-input-password placeholder="repeat password"
+    <x-input-password pPlaceHolder="Repeat password"
              v-model="repassaword"
              v-on:enter="signUp" />
 
@@ -24,22 +21,32 @@
 <script>
 export default {
   name: 'x-signup',
-  props: {
-    welcomeMsg: {
-      type: String,
-      default: "Welcome"
-    }
-  },
   data: () => {
     return {
-      email: "ricardo9300@gmail.com",
-      password: "abc123",
-      repassaword: "abc123"
+      email: "",
+      password: "",
+      repassaword: ""
     }
   },
   methods: {
     signUp: function() {
-      this.$emit('signUp', this.email, this.password, this.repassaword)
+
+      if (this.email.length <= 0) {
+        this.$emit('setMessages', ["Email cannot be null"])
+        return false
+      }
+
+      if (this.password.length <= 0) {
+        this.$emit('setMessages', ["Password cannot be null"])
+        return false
+      }
+
+      if (this.repassword != this.password) {
+        this.$emit('setMessages', ["Passwords are not the same"])
+        return false
+      }
+
+      this.$emit('signUp', this.email, this.password)
     }
   }
 }

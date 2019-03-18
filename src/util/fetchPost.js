@@ -21,15 +21,12 @@ const postData = function (url = ``, data = {}) {
         body: JSON.stringify(data),
       })
       .then((res) => {
-        if (res.ok)
-        {
-          return resolve(res.json())
-        } else {
-          return reject({
-            code: res.status,
-            data: res.json()
-          })
-        }
+        if (res.ok) return resolve(res.json())
+
+        return reject({
+          code: res.status,
+          data: res.json()
+        })
       })
       .catch((error) => {
         reject({
