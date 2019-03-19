@@ -7,6 +7,8 @@ import CommonComponents from '../components/00_common'
 import { storeObj } from '../stores/managerStore'
 import { autoLogoutUser } from '../util/auto-logout-user'
 
+import CommonComps from '../plugins/main.bundle'
+
 // Stylesheet
 import '../styles/main.scss'
 
@@ -23,6 +25,9 @@ Components.forEach((component) => {
 // Plugins
 Vue.use(Vuex)
 
+Vue.use(CommonComps)
+
+
 //Store
 const store = new Vuex.Store(storeObj)
 
@@ -34,3 +39,5 @@ const root = new Vue({
     autoLogoutUser(store)
   }
 })
+
+
