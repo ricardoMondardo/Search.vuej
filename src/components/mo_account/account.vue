@@ -122,7 +122,6 @@ export default {
     }
   },
   mounted() {
-    console.log('mouted')
     if(this.pComeFromActiveLink) {
       //window.history.pushState("", "", '/account');
 
