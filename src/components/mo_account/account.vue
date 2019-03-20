@@ -17,15 +17,15 @@
       class="c-account__tabs"
       v-if="!isStatusLogged">
       <button
-        class="button--link"
-        v-bind:class="[ isModeLogin ? 'button--link__on' : ''  ]"
+        class="c-button--link"
+        v-bind:class="[ isModeLogin ? 'c-button--link__on' : ''  ]"
         v-on:click="showLogIn">
         {{ pLogInLabel }}
       </button>
 
       <button
-        class="button--link"
-        v-bind:class="[ isModeSign ? 'button--link__on' : ''  ]"
+        class="c-button--link"
+        v-bind:class="[ isModeSign ? 'c-button--link__on' : ''  ]"
         v-on:click="showSignUp">
         {{ pCreateAccountLabel }}
       </button>
@@ -50,7 +50,7 @@
         :pMinLength=9
         pMessageError="Password should have at least 9 chars" />
 
-      <x-send-active-link-form
+      <x-send-link-by-email-form
         v-if="isModeSendLink"
         p-place-holder-field="Email"
         p-text-button="Send me a link"
@@ -75,6 +75,10 @@
       v-if="!isModeSendLink"
       v-on:click="showSendLink">
       Send link active account
+    </button>
+
+    <button class="button">
+      Forgot password
     </button>
 
     <ul
