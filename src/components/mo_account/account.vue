@@ -34,11 +34,17 @@
     <div v-if="!isStatusLoading">
       <x-login-form
         v-if="!isStatusLogged && isModeLogin"
+        p-place-holder-email="Email *"
+        p-place-holder-password="Pass *"
+        p-text-button="Log in"
         v-on:login="login"
         v-on:error="setMessages" />
 
       <x-signin-form
         v-if="!isStatusLogged && isModeSign"
+        p-place-holder-email="Email *"
+        p-place-holder-password="Pass *"
+        p-text-button="Sig in"
         v-on:signin="signUp"
         v-on:error="setMessages"
         :pMinLength=9
@@ -46,6 +52,8 @@
 
       <x-send-active-link-form
         v-if="isModeSendLink"
+        p-place-holder-field="Email"
+        p-text-button="Send me a link"
         v-on:sendactivelink="sendActiveLink"
         v-on:error="setMessages" />
 
