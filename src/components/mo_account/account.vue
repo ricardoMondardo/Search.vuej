@@ -56,8 +56,8 @@
         p-text-button="Send me a link"
         v-on:sendactivelink="sendActiveLink"
         v-on:error="setMessages" />
-
     </div>
+
     <div
       class="c-account__spinner"
       v-else>

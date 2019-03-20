@@ -1,11 +1,13 @@
 <div id="vue-container">
-  <x-account p-welcome-msg="{{ WelcomerMsg }}"
-             p-user-active-code="1afd647d-d919-46b0-8392-869d370b29ea"
-             p-email="ricardo9300@gmail.com">
+  <x-account
+    p-welcome-msg="{{ WelcomerMsg }}"
+    p-come-from-active-link
+    p-user-active-code="c61b497f-e2b5-4656-bcf4-030e2f405917"
+    p-email="ricardo9300@gmail.com">
     {{ render "@menu" }}
   </x-account>
 </div>
 
-{{!-- p-come-from-active-link="{{true}}" --}}
+{{!-- p-come-from-active-link --}}
 
 <script src="{{ path '/account.bundle.js' }}"></script>
