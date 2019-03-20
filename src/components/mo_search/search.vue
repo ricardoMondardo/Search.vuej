@@ -1,7 +1,7 @@
 <template>
   <div class="site-content c-search">
 
-    <x-buttonhamburger />
+    <x-buttonhamburger v-on:click="openTopMenu"/>
 
     <x-main-nav class="c-search__main-nav">
       <template slot="menu-items">
@@ -50,7 +50,7 @@
 
     <div class="c-search__botton-container">
       <div v-if="loading" class="c-search__spiner">
-        <x-spiner />
+        <x-spinner />
       </div>
       <div v-else>
         <x-list :pCollection="drugs">
@@ -123,6 +123,9 @@
     //
     // },
     methods: {
+      openTopMenu: function() {
+        this.$store.commit('openTopMenu', !this.$store.state.UIControl.showTopMenu)
+      },
       goToPage: function(page) {
         if (page > this.totalPages || page < 0) return false
 

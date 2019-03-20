@@ -1,6 +1,7 @@
 import Search from './search'
 import List from './list'
 import Card from './card'
+import Field from './field'
 import Pagination from './pagination'
 
 import MainNav from '../co_main_nav/main_nav'
@@ -12,5 +13,6 @@ export default [
   Card,
   Pagination,
   MainNav,
-  AuthNav
+  AuthNav,
+  Field
 ]

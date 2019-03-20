@@ -21,7 +21,7 @@
     </div>
 
     <div class="searchCard__lock">
-      <x-lock :pLock="false"/>
+      <x-lock p-unlock/>
     </div>
   </div>
 

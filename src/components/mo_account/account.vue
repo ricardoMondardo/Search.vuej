@@ -1,7 +1,7 @@
 <template>
   <div class="site-content c-account">
 
-    <x-buttonhamburger />
+    <x-buttonhamburger v-on:click="openTopMenu"/>
 
     <x-main-nav class="c-account__main-nav">
       <template slot="menu-items">
@@ -32,25 +32,28 @@
     </div>
 
     <div v-if="!isStatusLoading">
-      <x-login
+      <x-login-form
         v-if="!isStatusLogged && isModeLogin"
-        v-on:setMessages="setMessages"
-        v-on:login="login" />
+        v-on:login="login"
+        v-on:error="setMessages" />
 
-      <x-signup
+      <x-signin-form
         v-if="!isStatusLogged && isModeSign"
-        v-on:setMessages="setMessages"
-        v-on:signUp="signUp" />
+        v-on:signin="signUp"
+        v-on:error="setMessages"
+        :pMinLength=9
+        pMessageError="Password should have at least 9 chars" />
 
       <x-send-active-link-form
         v-if="isModeSendLink"
-        v-on:setMessages="setMessages"
-        v-on:sendActiveLink="sendActiveLink"/>
+        v-on:sendactivelink="sendActiveLink"
+        v-on:error="setMessages" />
+
     </div>
     <div
       class="c-account__spinner"
       v-else>
-      <x-spiner />
+      <x-spinner />
     </div>
 
     <div
@@ -155,6 +158,9 @@ export default {
     }
   },
   methods: {
+    openTopMenu: function() {
+      this.$store.commit('openTopMenu', !this.$store.state.UIControl.showTopMenu)
+    },
     showSignUp: function() {
       this.changeMode(this.$constants.AccountPageMode.SIGNIN)
     },
@@ -278,8 +284,7 @@ export default {
       }
     },
     setMessages: function(messages) {
-      console.log('messages')
-      this.messages = messages
+      this.messages = [messages]
     }
   }
 }

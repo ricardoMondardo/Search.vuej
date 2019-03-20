@@ -1,12 +1,12 @@
 <template>
   <div class="c-auth-op">
-    <button class="button"
+    <button class="c-button"
             v-if="logged"
             v-on:click="logOut">
       Log out
     </button>
     <span v-else>
-      <a class="button"
+      <a class="c-button"
         v-if="pHideLogin"
         href="/account">
         Log in

@@ -1,7 +1,7 @@
 <template>
   <div class="site-content c-home">
 
-    <x-buttonhamburger />
+    <x-buttonhamburger v-on:click="openTopMenu"/>
 
     <x-main-nav class="c-home__main-nav">
       <template slot="menu-items">
@@ -16,6 +16,11 @@
 
 <script>
   export default {
-    name: 'x-home'
+    name: 'x-home',
+    methods: {
+      openTopMenu: function() {
+      this.$store.commit('openTopMenu', !this.$store.state.UIControl.showTopMenu)
+    },
+    }
   }
 </script>
