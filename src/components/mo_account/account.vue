@@ -18,7 +18,7 @@
 
       <div
         class="c-account__tabs"
-        v-if="!isModeLogged && (isModeLogin || isModeSign)">
+        v-if="!isModeLogged">
         <button
           class="c-button--link"
           v-bind:class="[ isModeLogin ? 'c-button--link__on' : ''  ]"
