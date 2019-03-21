@@ -11,7 +11,7 @@
 
     <x-auth-nav
       class="c-account__auth_nav"
-      v-on:logout="showLogIn"
+      v-on:logout="logout"
       :pHideLogin="false"/>
 
     <div v-if="!isStatusLoading">
@@ -58,8 +58,8 @@
         p-place-holder-password="Pass *"
         p-place-holder-second-password="Type again Pass *"
         p-text-button="Update"
-        p-message-error="Password should have at least 2 chars"
-        :pMinLength=2
+        p-message-error="Password should have at least 9 chars"
+        :pMinLength=9
         v-on:update="updatepass"
         v-on:error="setMessages" />
 
@@ -74,7 +74,12 @@
       <div
         class="c-account__welcome-msg"
         v-if="isModeLogged">
-        Welcome!
+        <x-user-card
+          :p-name="username"
+          :p-email="email"
+          :p-active="active"
+          v-on:active="showSendLinkActive"
+          />
       </div>
 
     </div>
@@ -84,22 +89,22 @@
       <x-spinner />
     </div>
 
-    <!-- v-if="!isModeSendLickActive && !isModeSendLickForgot" -->
     <div class="c-account__send-link-buttons">
       <button
-        class="button"
+        class="c-button"
         v-on:click="showSendLinkActive">
         Send link active account
       </button>
 
       <button
-        class="button"
+        class="c-button"
+        v-if="!isModeLogged"
         v-on:click="showSendLinkForgot">
         Forgot password
       </button>
 
       <button
-        class="button"
+        class="c-button"
         v-if="isModeLogged"
         v-on:click="showUpdatePass">
         Update password
@@ -122,6 +127,7 @@
 <script>
 
 const fetchPost = require('../../util/fetchPost')
+const fetchGet = require('../../util/fetchGet')
 
 export default {
   name: 'x-account',
@@ -156,9 +162,6 @@ export default {
     }
   },
   mounted() {
-
-    console.log('just mouted...')
-
     if(this.pComeFromActiveLink || this.pComeFromForgotLink) {
       if(this.pUserActiveCode.length > 0) {
         this.logInUserWithCode()
@@ -176,6 +179,8 @@ export default {
       status: "",
       mode: '',
       email: "",
+      username: "",
+      active: "",
       password: "",
       messages: []
     }
@@ -217,7 +222,18 @@ export default {
       this.$store.commit('openTopMenu', !this.$store.state.UIControl.showTopMenu)
     },
     showLogged: function() {
-      this.changeMode(this.$constants.AccountPageMode.LOGGED)
+      const self = this
+      const inInFractal = window.location.port == "3000"
+      const url = inInFractal ? `https://localhost:5001/api/user/getUserData` : `/api/user/getUserData`
+
+      fetchGet.getData(url, this.$store.state.user.token)
+        .then((res) => {
+          self.username = res.name
+          self.active = res.active
+
+          self.changeMode(this.$constants.AccountPageMode.LOGGED)
+        })
+        .catch((error) => { self.handleErrorPost(error) })
     },
     showSignUp: function() {
       this.changeMode(this.$constants.AccountPageMode.SIGNIN)
@@ -239,6 +255,10 @@ export default {
       this.messages = []
       this.mode = mode
     },
+    logout: function() {
+      this.$store.commit('logOutUser')
+      this.showLogIn()
+    },
     login: function(email, password) {
       const self = this
       this.messages = []
@@ -251,12 +271,12 @@ export default {
         })
       .then((res) => {
         self.status = this.$constants.AccountPageStatusControl.INITIAL
-        self.showLogged()
         self.$store.commit('logInUser', {
           id: res.id,
           token: res.token,
           tokenExpirationTime: res.tokenExpirationTime
         })
+        self.showLogged()
       })
       .catch((error) => {
         self.handleErrorPost(error)
@@ -274,18 +294,16 @@ export default {
         })
       .then((res) => {
         self.status = this.$constants.AccountPageStatusControl.INITIAL
-
-        if (self.pComeFromForgotLink) {
-          this.showUpdatePass()
-        } else {
-          this.showLogged()
-        }
-
         self.$store.commit('logInUser', {
           id: res.id,
           token: res.token,
           tokenExpirationTime: res.tokenExpirationTime
         })
+        if (self.pComeFromForgotLink) {
+          this.showUpdatePass()
+        } else {
+          this.showLogged()
+        }
       })
       .catch((error) => {
         this.handleErrorPost(error)
@@ -304,12 +322,12 @@ export default {
         })
       .then((res) => {
         self.status = this.$constants.AccountPageStatusControl.INITIAL
-        self.showLogged()
         self.$store.commit('logInUser', {
           id: res.id,
           token: res.token,
           tokenExpirationTime: res.tokenExpirationTime
         })
+        self.showLogged()
       })
       .catch((error) => {
         self.handleErrorPost(error)
@@ -330,7 +348,6 @@ export default {
       .catch((error) => {
         self.handleErrorPost(error)
       });
-
     },
     updatepass: function() {
       console.log('Update pass')

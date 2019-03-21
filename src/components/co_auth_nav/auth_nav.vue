@@ -31,11 +31,7 @@ export default {
   },
   methods: {
     logOut: function(e) {
-
       e.preventDefault()
-
-      this.$store.commit('logOutUser')
-
       this.$emit('logout')
     }
   }

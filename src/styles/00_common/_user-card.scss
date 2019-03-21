@@ -1,0 +1,20 @@
+.c-user-card {
+  background: white;
+  border-radius: 3px;
+  box-shadow: $Shadow;
+  padding: 15px 15px;
+
+  &__field {
+    text-align: left;
+
+    & > span {
+      font-weight: 900;
+    }
+
+    & div {
+      display: inline-block;
+    }
+
+  }
+
+}
