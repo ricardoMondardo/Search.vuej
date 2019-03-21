@@ -1,9 +1,20 @@
 'use strict';
 
-const postData = function (url = ``, data = {}) {
+const postData = function (url = ``, data = {}, token) {
 
   const inInFractal = window.location.port == "3000"
   url = inInFractal ? `https://localhost:5001/${url}` : `/${url}`
+
+  var header = {
+    "Content-Type": "application/json"
+  }
+
+  if (token != undefined) {
+    header = {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`
+    }
+  }
 
   const obj = new Promise(
     function(resolve, reject) {
@@ -13,9 +24,7 @@ const postData = function (url = ``, data = {}) {
         mode: "cors",
         cache: "no-cache",
         credentials: "same-origin",
-        headers: {
-            "Content-Type": "application/json"
-        },
+        headers: header,
         redirect: "follow",
         referrer: "no-referrer",
         body: JSON.stringify(data),

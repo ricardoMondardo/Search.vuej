@@ -349,11 +349,28 @@ export default {
         self.handleErrorPost(error)
       });
     },
-    updatepass: function() {
-      console.log('Update pass')
+    updatepass: function(email, pass) {
+      const self = this
+      this.messages = []
       this.status = this.$constants.AccountPageStatusControl.INITIAL
+
+      var token = this.$store.state.user.token
+      var data = {
+        pass: pass
+      }
+
+      fetchPost.postData(`api/user/updatepass`, data, token)
+      .then((res) => {
+        self.status = this.$constants.AccountPageStatusControl.INITIAL
       this.showLogIn()
       this.messages = ["Your password has been updated"]
+      })
+      .catch((error) => {
+        self.handleErrorPost(error)
+      });
+
+
+
     },
     handleErrorPost: function(error) {
 
