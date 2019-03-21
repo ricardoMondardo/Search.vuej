@@ -2,13 +2,15 @@ const constants = {
   AccountPageStatusControl: {
     INITIAL: 'INITIAL',
     LOADING: 'LOAGING',
-    LOGGED: 'LOGGED',
     ERROR: 'ERROR'
   },
   AccountPageMode: {
+    LOGGED: 'LOGGED',
     LOGIN: 'LOGIN',
     SIGNIN: 'SIGNIN',
-    SENDLINK: 'SENDLINK'
+    SENDLINKACTIVE: 'SENDLINKACTIVE',
+    SENDLINKFORGOT: 'SENDLINKFORGOT',
+    UPDATEPASS: 'UPDATEPASS'
   }
 }
 

@@ -11,29 +11,31 @@
 
     <x-auth-nav
       class="c-account__auth_nav"
+      v-on:logout="showLogIn"
       :pHideLogin="false"/>
 
-    <div
-      class="c-account__tabs"
-      v-if="!isStatusLogged">
-      <button
-        class="c-button--link"
-        v-bind:class="[ isModeLogin ? 'c-button--link__on' : ''  ]"
-        v-on:click="showLogIn">
-        {{ pLogInLabel }}
-      </button>
-
-      <button
-        class="c-button--link"
-        v-bind:class="[ isModeSign ? 'c-button--link__on' : ''  ]"
-        v-on:click="showSignUp">
-        {{ pCreateAccountLabel }}
-      </button>
-    </div>
-
     <div v-if="!isStatusLoading">
+
+      <div
+        class="c-account__tabs"
+        v-if="!isModeLogged && (isModeLogin || isModeSign)">
+        <button
+          class="c-button--link"
+          v-bind:class="[ isModeLogin ? 'c-button--link__on' : ''  ]"
+          v-on:click="showLogIn">
+          {{ pLogInLabel }}
+        </button>
+
+        <button
+          class="c-button--link"
+          v-bind:class="[ isModeSign ? 'c-button--link__on' : ''  ]"
+          v-on:click="showSignUp">
+          {{ pCreateAccountLabel }}
+        </button>
+      </div>
+
       <x-login-form
-        v-if="!isStatusLogged && isModeLogin"
+        v-if="isModeLogin"
         p-place-holder-email="Email *"
         p-place-holder-password="Pass *"
         p-text-button="Log in"
@@ -41,45 +43,68 @@
         v-on:error="setMessages" />
 
       <x-signin-form
-        v-if="!isStatusLogged && isModeSign"
+        v-if="isModeSign"
         p-place-holder-email="Email *"
         p-place-holder-password="Pass *"
+        p-place-holder-second-password="Type again Pass *"
         p-text-button="Sig in"
         v-on:signin="signUp"
         v-on:error="setMessages"
         :pMinLength=9
         pMessageError="Password should have at least 9 chars" />
 
-      <x-send-link-by-email-form
-        v-if="isModeSendLink"
-        p-place-holder-field="Email"
-        p-text-button="Send me a link"
-        v-on:sendactivelink="sendActiveLink"
+      <x-update-password-form
+        v-if="isModeUpdatePass"
+        p-place-holder-password="Pass *"
+        p-place-holder-second-password="Type again Pass *"
+        p-text-button="Update"
+        p-message-error="Password should have at least 2 chars"
+        :pMinLength=2
+        v-on:update="updatepass"
         v-on:error="setMessages" />
-    </div>
 
+
+      <x-send-link-by-email-form
+        v-if="isModeSendLickActive || isModeSendLickForgot"
+        p-place-holder-field="Email"
+        :p-text-button="textNutton"
+        v-on:sendLink="sendLink"
+        v-on:error="setMessages" />
+
+      <div
+        class="c-account__welcome-msg"
+        v-if="isModeLogged">
+        Welcome!
+      </div>
+
+    </div>
     <div
       class="c-account__spinner"
       v-else>
       <x-spinner />
     </div>
 
-    <div
-      class="c-account__welcome-msg"
-      v-if="shouldShowWelcomeMsg">
-      Welcome!
+    <!-- v-if="!isModeSendLickActive && !isModeSendLickForgot" -->
+    <div class="c-account__send-link-buttons">
+      <button
+        class="button"
+        v-on:click="showSendLinkActive">
+        Send link active account
+      </button>
+
+      <button
+        class="button"
+        v-on:click="showSendLinkForgot">
+        Forgot password
+      </button>
+
+      <button
+        class="button"
+        v-if="isModeLogged"
+        v-on:click="showUpdatePass">
+        Update password
+      </button>
     </div>
-
-    <button
-      class="button"
-      v-if="!isModeSendLink"
-      v-on:click="showSendLink">
-      Send link active account
-    </button>
-
-    <button class="button">
-      Forgot password
-    </button>
 
     <ul
       class="c-account__forms-msg"
@@ -90,9 +115,10 @@
         {{ item }}
       </li>
     </ul>
-  </div>
-</template>
 
+  </div>
+
+</template>
 <script>
 
 const fetchPost = require('../../util/fetchPost')
@@ -116,6 +142,10 @@ export default {
       type: Boolean,
       default: false
     },
+    pComeFromForgotLink: {
+      type: Boolean,
+      default: false
+    },
     pUserActiveCode: {
       type: String,
       default: ""
@@ -126,14 +156,19 @@ export default {
     }
   },
   mounted() {
-    if(this.pComeFromActiveLink) {
-      //window.history.pushState("", "", '/account');
 
+    console.log('just mouted...')
+
+    if(this.pComeFromActiveLink || this.pComeFromForgotLink) {
       if(this.pUserActiveCode.length > 0) {
         this.logInUserWithCode()
       }
     } else {
-      this.showLogIn()
+      if ( this.$store.state.user.logged ) {
+        this.showLogged()
+      } else {
+        this.showLogIn()
+      }
     }
   },
   data: () => {
@@ -146,17 +181,26 @@ export default {
     }
   },
   computed: {
+    isModeLogged: function() {
+      return this.mode == this.$constants.AccountPageMode.LOGGED
+    },
     isModeLogin: function() {
       return this.mode == this.$constants.AccountPageMode.LOGIN
     },
     isModeSign: function() {
       return this.mode == this.$constants.AccountPageMode.SIGNIN
     },
-    isModeSendLink: function() {
-      return this.mode == this.$constants.AccountPageMode.SENDLINK
+    isModeUpdatePass: function() {
+      return this.mode == this.$constants.AccountPageMode.UPDATEPASS
     },
-    isStatusLogged: function() {
-      return this.status == this.$constants.AccountPageStatusControl.LOGGED
+    isModeSendLickActive: function() {
+      return this.mode == this.$constants.AccountPageMode.SENDLINKACTIVE
+    },
+    isModeSendLickForgot: function() {
+      return this.mode == this.$constants.AccountPageMode.SENDLINKFORGOT
+    },
+    isStatusInitial: function() {
+      return this.status == this.$constants.AccountPageStatusControl.INITIAL
     },
     isStatusLoading: function() {
       return this.status == this.$constants.AccountPageStatusControl.LOADING
@@ -164,13 +208,16 @@ export default {
     isStatusError: function() {
       return this.status == this.$constants.AccountPageStatusControl.ERROR
     },
-    shouldShowWelcomeMsg: function() {
-      return this.isStatusLogged && !this.isStatusLoading
+    textNutton: function() {
+      return this.isModeSendLickActive ? "Send active link" : "Send forgot link"
     }
   },
   methods: {
     openTopMenu: function() {
       this.$store.commit('openTopMenu', !this.$store.state.UIControl.showTopMenu)
+    },
+    showLogged: function() {
+      this.changeMode(this.$constants.AccountPageMode.LOGGED)
     },
     showSignUp: function() {
       this.changeMode(this.$constants.AccountPageMode.SIGNIN)
@@ -178,8 +225,14 @@ export default {
     showLogIn: function() {
       this.changeMode(this.$constants.AccountPageMode.LOGIN)
     },
-    showSendLink: function() {
-      this.changeMode(this.$constants.AccountPageMode.SENDLINK)
+    showSendLinkActive: function() {
+      this.changeMode(this.$constants.AccountPageMode.SENDLINKACTIVE)
+    },
+    showSendLinkForgot: function() {
+      this.changeMode(this.$constants.AccountPageMode.SENDLINKFORGOT)
+    },
+    showUpdatePass: function() {
+      this.changeMode(this.$constants.AccountPageMode.UPDATEPASS)
     },
     changeMode: function(mode) {
       this.status = this.$constants.AccountPageStatusControl.INITIAL
@@ -189,6 +242,7 @@ export default {
     login: function(email, password) {
       const self = this
       this.messages = []
+      this.email = email
 
       this.status = this.$constants.AccountPageStatusControl.LOADING
       fetchPost.postData("api/Auth/Login", {
@@ -196,7 +250,8 @@ export default {
             password: password
         })
       .then((res) => {
-        this.status = this.$constants.AccountPageStatusControl.LOGGED
+        self.status = this.$constants.AccountPageStatusControl.INITIAL
+        self.showLogged()
         self.$store.commit('logInUser', {
           id: res.id,
           token: res.token,
@@ -204,12 +259,13 @@ export default {
         })
       })
       .catch((error) => {
-        this.handleErrorPost(error)
+        self.handleErrorPost(error)
       });
     },
     logInUserWithCode: function() {
       const self = this
       this.messages = []
+      this.email = this.pEmail
 
       this.status = this.$constants.AccountPageStatusControl.LOADING
       fetchPost.postData("api/Auth/loginWithActiveCode", {
@@ -217,7 +273,14 @@ export default {
             password: this.pUserActiveCode
         })
       .then((res) => {
-        this.status = this.$constants.AccountPageStatusControl.LOGGED
+        self.status = this.$constants.AccountPageStatusControl.INITIAL
+
+        if (self.pComeFromForgotLink) {
+          this.showUpdatePass()
+        } else {
+          this.showLogged()
+        }
+
         self.$store.commit('logInUser', {
           id: res.id,
           token: res.token,
@@ -240,7 +303,8 @@ export default {
             password: password
         })
       .then((res) => {
-        this.status = this.$constants.AccountPageStatusControl.LOGGED
+        self.status = this.$constants.AccountPageStatusControl.INITIAL
+        self.showLogged()
         self.$store.commit('logInUser', {
           id: res.id,
           token: res.token,
@@ -248,25 +312,35 @@ export default {
         })
       })
       .catch((error) => {
-        this.handleErrorPost(error)
+        self.handleErrorPost(error)
       });
     },
-    sendActiveLink: function(email) {
+    sendLink: function(email) {
       const self = this
-      this.messages = []
+      var isForgot = this.isModeSendLickForgot ? "S" : "N"
 
+      this.messages = []
       this.status = this.$constants.AccountPageStatusControl.LOADING
-      fetchPost.postData(`api/Auth/sendlinkactive?email=${email}`)
+      fetchPost.postData(`api/Auth/sendlinkactive?email=${email}&forgot=${isForgot}`)
       .then((res) => {
-        this.showLogIn()
-        this.messages.push("Please, check your email")
+        self.status = this.$constants.AccountPageStatusControl.INITIAL
+        self.showLogIn()
+        self.messages.push("Please, check your email")
       })
       .catch((error) => {
-        this.handleErrorPost(error)
+        self.handleErrorPost(error)
       });
 
     },
+    updatepass: function() {
+      console.log('Update pass')
+      this.status = this.$constants.AccountPageStatusControl.INITIAL
+      this.showLogIn()
+      this.messages = ["Your password has been updated"]
+    },
     handleErrorPost: function(error) {
+
+      this.showLogIn()
       this.status = this.$constants.AccountPageStatusControl.ERROR
       this.messages = []
 
@@ -274,7 +348,8 @@ export default {
         if(error.code == '404') {
           this.messages.push("Email not found")
         } else if(error.code == '401') {
-           this.messages.push("Email or Password invalid")
+           this.messages.push("Email or Password invalid or Invalid Active Token")
+           this.messages.push("Please, try to ask for a new link")
         } else if(error.code == '400') {
           error.data.then((data) => {
             if(data.title != undefined) this.messages.push(data.title)

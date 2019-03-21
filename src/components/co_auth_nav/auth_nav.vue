@@ -2,7 +2,7 @@
   <div class="c-auth-op">
     <button class="c-button"
             v-if="logged"
-            v-on:click="logOut">
+            v-on:click="logOut($event)">
       Log out
     </button>
     <span v-else>
@@ -30,11 +30,13 @@ export default {
     }
   },
   methods: {
-    logOut: function() {
+    logOut: function(e) {
+
+      e.preventDefault()
+
       this.$store.commit('logOutUser')
-      const inInFractal = window.location.port == "3000"
-      window.location.href = inInFractal ? "/components/preview/account"
-                              : "/account";
+
+      this.$emit('logout')
     }
   }
 }
