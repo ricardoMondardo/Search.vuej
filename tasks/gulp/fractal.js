@@ -31,11 +31,6 @@ fractal.web.set('server.syncOptions', {
         let folderName = requestUrlPath[requestUrlPath.length - 2]
         let filePath = path.join(__dirname, `${mocksPath}/${folderName}/${fileName}.json`)
 
-        console.log(requestUrlPath)
-        console.log(folderName)
-        console.log(fileName)
-        console.log(filePath)
-
         fs.exists(filePath, (exists) => {
           if (exists) {
             setTimeout(() => {
