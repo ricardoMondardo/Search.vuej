@@ -1,10 +1,9 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import Components from '../components/mo_home'
+import Components from '../components/home'
 
 import { storeObj } from '../stores/managerStore'
-import { autoLogoutUser } from '../util/auto-logout-user'
 
 import CommonComps from '../plugins/components.bundle'
 //import CommonComps from 'rmondardo-vuejs-commons-comps/dist/components.bundle'
@@ -20,19 +19,17 @@ Components.forEach((component) => {
 
 // Plugins
 Vue.use(Vuex)
-
 Vue.use(CommonComps)
-
 
 //Store
 const store = new Vuex.Store(storeObj)
 
 // Start
 const root = new Vue({
-  el: '#vue-container',
+  el: '#vue-app',
   store,
   mounted() {
-    autoLogoutUser(store)
+    console.log(`vue app just build`)
   }
 })
 

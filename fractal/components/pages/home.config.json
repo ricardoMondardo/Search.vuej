@@ -1,7 +1,9 @@
 {
   "context": {
-      "WelcomerMsg": "Welcome User!",
-      "ComeFromActiveLink": false
+      "Sitecore": {
+          "Value": "value",
+          "Logo": "/img/logo.svg"
+      }
   },
   "notes": "These are some **notes** about the component",
   "status": "wip"

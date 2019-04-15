@@ -1,10 +1,10 @@
 {
   "private": true,
   "scripts": {
+    "start": "gulp start",
     "build": "webpack -d",
     "build:prod": "webpack --production",
-    "watch": "webpack -d --watch",
-    "watch:prod": "webpack --production --watch"
+    "watch": "webpack -d --watch"
   },
   "dependencies": {
     "rmondardo-vuejs-commons-comps": "^1.0.7",

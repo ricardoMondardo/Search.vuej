@@ -6,8 +6,10 @@
     <title>Preview Layout</title>
 </head>
 <body>
+    <div id="vue-app">
+      {{{ yield }}}
+    </div>
 
-    {{{ yield }}}
-
+    <script src="{{ path '/home.bundle.js' }}"></script>
 </body>
 </html>

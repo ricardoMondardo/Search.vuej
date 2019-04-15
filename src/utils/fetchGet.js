@@ -32,4 +32,4 @@ const getData = function(url = '', token) {
 
 }
 
-export { getData }
+export default { getData }
